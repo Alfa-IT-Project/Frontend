@@ -1,10 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-
+import React from 'react';
+import Login from './components/Login/login';
 function App() {
   return (
-    <div className="App">
-      <h1>Hello World!</h1>
+    <div>
+     <Login/>
     </div>
   );
 }
