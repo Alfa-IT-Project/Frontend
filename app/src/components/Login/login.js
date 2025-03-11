@@ -24,34 +24,35 @@ export const getProtectedData = async (token) => {
 };
 
 export default function Login() {
-    const onFinish = (values) => {
-        const { username, password } = values
-        axios.post(`${API_URL}/login`, { username, password })
-    .then(response => {
-        console.log('Axios response:', response);
-        if (response.data.token) {
-            alert('User validated');
-        } else {
-            alert('Invalid credentials');
-        }
-    })
-    .catch(error => {
-        if (error.response) {
-            if (error.response.status === 401) {
-                alert('Invalid credentials. Please try again.');
-            } else if (error.response.status === 404) {
-                alert('User not found. Please register.');
+    const onFinish = async (values) => {
+        const { username, password } = values;
+    
+        try {
+            const response = await axios.post(`${API_URL}/login`, { username, password });
+    
+            if (response.data.token) {
+                alert('User validated');
+                localStorage.setItem('token', response.data.token); // Store token in localStorage
+                console.log('Token stored:', response.data.token);
             } else {
-                alert('An error occurred. Please try again later.');
+                alert('Invalid credentials');
             }
-        } else {
-            console.error('Error during Axios request:', error);
-            alert('Unable to connect to the server. Please try again later.');
+        } catch (error) {
+            if (error.response) {
+                if (error.response.status === 401) {
+                    alert('Invalid credentials. Please try again.');
+                } else if (error.response.status === 400) {
+                    alert('User not found. Please register.');
+                } else {
+                    alert('An error occurred. Please try again later.');
+                }
+            } else {
+                console.error('Error during Axios request:', error);
+                alert('Unable to connect to the server. Please try again later.');
+            }
         }
-    });
-
-
-    }
+    };
+   
   return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
             <div>
