@@ -1,9 +1,9 @@
 import React from 'react'
 //import { Button, Checkbox, Form, Input } from 'antd';
-import ReactDOM from 'react-dom';
+//import ReactDOM from 'react-dom';
 import 'antd/dist/reset.css';
 import './index.css';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
@@ -90,21 +90,11 @@ export default function Login() {
                             placeholder="Password"
                             />
                         </Form.Item>
-                        <Form.Item>
-                            <Form.Item name="remember" valuePropName="checked" noStyle>
-                            <Checkbox>Remember me</Checkbox>
-                            </Form.Item>
-
-                            <a className="login-form-forgot" href="">
-                            Forgot password
-                            </a>
-                        </Form.Item>
 
                         <Form.Item>
                             <Button type="primary" htmlType="submit" className="login-form-button">
                             Log in
                             </Button>
-                            Or <a href="">register now!</a>
                         </Form.Item>
                     </Form>
             </div>  
