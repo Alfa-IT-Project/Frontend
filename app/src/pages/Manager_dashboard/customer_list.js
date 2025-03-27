@@ -30,13 +30,13 @@ function CustomerList() {
     fetchCustomers();
   }, []);
 
-   const handleClick1 = () => {
-     navigate('/manager-dashboard');
-   };
-
-  const handleClick2 = () => {
-    navigate('/purchases');
+  const handleClick1 = () => {
+    navigate('/manager-dashboard');
   };
+
+ const handleClick2 = () => {
+   navigate('/purchases');
+ };
 
   return (
     <div className={styles.contain}>
@@ -56,6 +56,7 @@ function CustomerList() {
 
         <div className="customer-section">
             <h2>Customers</h2>
+            <button onClick={() => navigate('/addcustomer')}>Add Customer</button>
             <table className="customer-table">
                 <thead>
                 <tr>
@@ -77,8 +78,12 @@ function CustomerList() {
                     <td>{customer.user.address || 'N/A'}</td>
                     <td>{customer.notes || 'N/A'}</td>
                     <td>
-                        <button onClick={() => navigate(`/purchases/${customer.id}`)}>
-                        View Purchases
+                        <button onClick={() => navigate(`/customers/${customer.id}`)}>  View Purchases
+                        </button>
+                    </td>
+                    <td>
+                        <button onClick={() => navigate(`/customers/deleteCustomer`)}>
+                        Delete Customer
                         </button>
                     </td>
                     </tr>

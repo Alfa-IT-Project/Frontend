@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const API_URL = 'http://localhost:4000/users';
 
-export default function Login({ setToken , setRole}) {
+export default function Login({ setToken , setRole, setUserId}) {
     const navigate = useNavigate(); // For redirection
 
     const onFinish = async (values) => {
@@ -18,9 +18,11 @@ export default function Login({ setToken , setRole}) {
             if (response.data.token) {
                 alert('User validated');
                 localStorage.setItem('token', response.data.token);
-                localStorage.setItem('role', response.data.role); // Store role
+                localStorage.setItem('role', response.data.role);
+                localStorage.setItem('userId', response.data.userId);
                 setToken(response.data.token);
                 setRole(response.data.role);
+                setUserId(parseInt(response.data.userId, 10));
 
                  // Redirect to the appropriate dashboard
                  if (response.data.role === 'customer') {

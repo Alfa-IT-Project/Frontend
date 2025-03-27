@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './components/Login/login.js';
-import CustomerDashboard from './components/customer_profile/profile.js';
-import ManagerDashboard from './components/Manager_dashboard/gm_dashboard.js';
-import CustomerList from './components/Manager_dashboard/customer_list.js';
-import PurchaseList from './components/Manager_dashboard/purchase_list.js';
+import Login from './pages/Login/login.js';
+
+import CustomerDashboard from './pages/customer_profile/profile.js';
+import ContactUs from './pages/customer_profile/contact_us.js';
+import EditProfile from './pages/customer_profile/edit_profile.js';
+
+
+import ManagerDashboard from './pages/Manager_dashboard/gm_dashboard.js';
+import CustomerList from './pages/Manager_dashboard/customer_list.js';
+import PurchaseList from './pages/Manager_dashboard/purchase_list.js';
+import AddCustomer from './pages/Manager_dashboard/addCUstomerForm.js';
+
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
   const [role, setRole] = useState(localStorage.getItem('role') || null);
+  // const [userId] = useState(localStorage.getItem('userId') || null);
+  const [userId, setUserId] = useState(() => {
+    const storedUserId = localStorage.getItem('userId');
+    return storedUserId ? parseInt(storedUserId, 10) : null;
+  });
 
   return (
     <Router>
@@ -17,11 +29,18 @@ function App() {
         {/* <Route path="/" element={<Navigate to="/login" />} /> */}
 
         {/* Login Route */}
-        <Route path="/login" element={<Login setToken={setToken} setRole={setRole} />} />
+        <Route path="/login" element={<Login setToken={setToken} setRole={setRole} setUserId={setUserId} />} />
 
         {/* Protected Routes for Customers */}
         {token && role === 'customer' ? (
-          <Route path="/customer-dashboard" element={<CustomerDashboard />} />
+          <>
+            <Route path="/customer-dashboard" element={<CustomerDashboard />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/edit_profile" element={<EditProfile userId={userId} />} />
+
+
+
+          </>
         ) : (
           <Route path="/customer-dashboard" element={<Navigate to="/login" />} />
         )}
@@ -32,6 +51,7 @@ function App() {
               <Route path="/manager-dashboard" element={<ManagerDashboard />} />
               <Route path="/customers" element={<CustomerList />} />
               <Route path="/purchases" element={<PurchaseList />} />
+              <Route path="/addCustomer" element={<AddCustomer />} />
           </>
         ) : (
           <Route path="/manager-dashboard" element={<Navigate to="/login" />} />
