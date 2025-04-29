@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.css';
-//import apssaraLogo from './apssaraLogo.png'; //Import the logo
+import apssaraLogo from './apssaraLogo.png'; //Import the logo
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -34,19 +34,50 @@ function CustomerList() {
     navigate('/manager-dashboard');
   };
 
- const handleClick2 = () => {
-   navigate('/purchases');
- };
+  const handleClick2 = () => {
+    navigate('/customers');
+  };
+  const handleClick3 = () => {
+    navigate('/purchases');
+  };
+  const handleClick4 = () => {
+    navigate('/contactList');
+  };
+
+  const handleLogout = () => {
+      localStorage.removeItem("token"); 
+      navigate("/login"); 
+  };
+  const handleDelete = async (customerId) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`${API_URL}/customers/${customerId}/deleteCustomer`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setCustomers(customers.filter(customer => customer.id !== customerId));
+      console.log(`Customer with ID ${customerId} deleted successfully.`);
+    } catch (error) {
+      console.error('Error deleting customer:', error);
+    }
+  };
 
   return (
     <div className={styles.contain}>
       {/* Topmost Section: Navbar within Image Container */}
       <div className={styles.header}>
-       
+      <img src={apssaraLogo} alt="Company Logo" className={styles.logo} />
+      
         <nav className={styles.navbar}>
+
           <button className={styles.navButton} onClick={handleClick1}>Home</button>
-          <button className={styles.navButton} /*onClick={handleClick3}*/>Customers</button>
-          <button className={styles.navButton} onClick={handleClick2}>Purchases</button>
+          <button className={styles.navButton} onClick={handleClick2}>Customers</button>
+          <button className={styles.navButton} onClick={handleClick3}>Purchases</button>
+          <button className={styles.navButton} onClick={handleClick4}>ContactList</button>
+          <button onClick={handleLogout} style={styles.button}>
+                Logout
+          </button>
         </nav>
       </div>
 
@@ -56,7 +87,7 @@ function CustomerList() {
 
         <div className="customer-section">
             <h2>Customers</h2>
-            <button onClick={() => navigate('/addcustomer')}>Add Customer</button>
+            {/* <button onClick={() => navigate('/addcustomer')}>Add Customer</button> */}
             <table className="customer-table">
                 <thead>
                 <tr>
@@ -77,12 +108,9 @@ function CustomerList() {
                     <td>{customer.user.phone || 'N/A'}</td>
                     <td>{customer.user.address || 'N/A'}</td>
                     <td>{customer.notes || 'N/A'}</td>
+                   
                     <td>
-                        <button onClick={() => navigate(`/customers/${customer.id}`)}>  View Purchases
-                        </button>
-                    </td>
-                    <td>
-                        <button onClick={() => navigate(`/customers/deleteCustomer`)}>
+                        <button onClick={() => handleDelete(customer.id)}>
                         Delete Customer
                         </button>
                     </td>

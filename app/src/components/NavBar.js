@@ -1,14 +1,17 @@
 import React from 'react';
-import './Nav.css';
-
+import { useNavigate } from 'react-router-dom';
+import styles from './Nav.css';
+import apssaraLogo from './apssaraLogo.png';
 const Navbar = () => {
+  
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token"); 
+    navigate("/login"); 
+  };
   return (
     <nav className="navbar">
-      <div className="navbar-left">
-        <a href="/" className="logo">
-          Customer Profile
-        </a>
-      </div>
+      <img src={apssaraLogo} alt="Company Logo" className={styles.logo} />
       <div className="navbar-center">
         <ul className="nav-links">
           <li><a href="/customer-dashboard">Purchases</a></li>
@@ -17,16 +20,15 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-right">
-        <a href="/cart" className="cart-icon">
-          <i className="fas fa-shopping-cart"></i>
-          <span className="cart-count">0</span>
-        </a>
-        <a href="/account" className="user-icon">
-          <i className="fas fa-user"></i>
-        </a>
+      <button className= "logout" onClick={handleLogout} style={styles.button}>
+      Logout
+    </button>
+        
       </div>
     </nav>
+    
   );
 };
+
 
 export default Navbar;

@@ -12,7 +12,7 @@ function EditProfile({ userId }) {
                 phone: '',
                 address: '',
                 password: ''
-            
+               
         });
     
         useEffect(() => {
@@ -39,7 +39,7 @@ function EditProfile({ userId }) {
                             phone: '',
                             address: '',
                             password: ''
-                      
+
                     });
                 }
             };
@@ -48,8 +48,10 @@ function EditProfile({ userId }) {
         }, [userId]);
 
     const handleChange = (e) => {
+       
         const { name, value } = e.target;
         setCustomer((prevState) => ({
+            
             ...prevState,
                 [name]: value,
            
@@ -62,23 +64,29 @@ function EditProfile({ userId }) {
         const token = localStorage.getItem("token");
 
         
-        const updatedData = {
-           
-                name: customer.name || "",
-                email: customer.email || "",
-                phone: customer.phone || "",
-                address: customer.address || "",
-                password: customer.password || "",
-            
+        let updatedData = {
+            name: customer.name || "",
+            email: customer.email || "",
+            phone: customer.phone || "",
+            address: customer.address || "",
+            password: customer.password || "",
+            confirmPassword: customer.confirmPassword,
+          
         };
 
+       
         try {
+            if (customer.confirmPassword !== customer.password) {
+                alert('Passwords must match');
+                return;
+            }
+
             const response = await axios.put(
                 `${API_URL}/customers/${userId}/updateCustomer`, 
                 updatedData,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-
+            
             console.log("Profile updated:", response.data);
             alert("Profile updated successfully");
         } catch (error) {
@@ -91,7 +99,7 @@ function EditProfile({ userId }) {
             <NavBar />
             <h1>Edit Profile</h1>
      
-            <form onSubmit={onFinish}>
+            <form onSubmit={onFinish} style={ {maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
                 <div>
                     <label>Name: </label>
                     <input
@@ -135,6 +143,16 @@ function EditProfile({ userId }) {
                         name="password"
                         value={customer.password || ""}
                         onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <label>Confirm Password: </label>
+                    <input
+                        type="password"
+                        name="confirmPassword"
+                        value={customer.confirmPassword }
+                        onChange={handleChange}
+                        
                     />
                 </div>
                 <button type="submit">Save Changes</button>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles.module.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import apssaraLogo from './apssaraLogo.png';
 const API_URL = 'http://localhost:4000';
 
 function PurchaseList() {
@@ -30,14 +30,23 @@ function PurchaseList() {
         fetchPurchases();
     }, []);
 
-    // Navigation handlers
     const handleClick1 = () => {
         navigate('/manager-dashboard');
-    };
-
-    const handleClick2 = () => {
+      };
+    
+      const handleClick2 = () => {
         navigate('/customers');
-    };
+      };
+      const handleClick3 = () => {
+        navigate('/purchases');
+      };
+      const handleClick4 = () => {
+        navigate('/contactList');
+      };
+    const handleLogout = () => {
+        localStorage.removeItem("token"); 
+        navigate("/login"); 
+      };
 
     // Toggle expanded row for item details
     const toggleRow = (purchaseId) => {
@@ -56,11 +65,17 @@ function PurchaseList() {
         <div className={styles.contain}>
             {/* Navbar Section */}
             <div className={styles.header}>
+                <img src={apssaraLogo} alt="Company Logo" className={styles.logo} />
                 <nav className={styles.navbar}>
-                    <button className={styles.navButton} onClick={handleClick1}>Home</button>
-                    <button className={styles.navButton} onClick={handleClick2}>Customers</button>
-                    <button className={styles.navButton}>Purchases</button>
-                </nav>
+                
+                          <button className={styles.navButton} onClick={handleClick1}>Home</button>
+                          <button className={styles.navButton} onClick={handleClick2}>Customers</button>
+                          <button className={styles.navButton} onClick={handleClick3}>Purchases</button>
+                          <button className={styles.navButton} onClick={handleClick4}>ContactList</button>
+                          <button onClick={handleLogout} style={styles.button}>
+                                Logout
+                          </button>
+                        </nav>
             </div>
 
             {/* Purchases List Section */}

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './styles.module.css';
 import './addCustomerStyle.css';
@@ -8,38 +8,16 @@ const API_URL = 'http://localhost:4000';
 
 function AddCustomer() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     username: '',
     password: '',
     email: '',
     name: '',
     phone: '',
-    order_date: '',
-    notes: ''
+    address: ''
   });
   const [errors, setErrors] = useState({});
-
-  useEffect(() => {
-    const fetchCustomers = async () => {
-      setLoading(true);
-      try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(`${API_URL}/customers`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        console.log('Customers:', response.data);
-      } catch (error) {
-        console.error('Error fetching customers:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCustomers();
-  }, []);
 
   const handleClick1 = () => {
     navigate('/manager-dashboard');
@@ -77,17 +55,21 @@ function AddCustomer() {
     if (!formData.phone || !phonePattern.test(formData.phone)) {
       newErrors.phone = "Phone number must be exactly 10 digits";
     }
-    if (!formData.order_date) {
-      newErrors.order_date = "Order date is required";
-    }
+   
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const onFinish = async (values) => {
-    if (!validate()) return;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (validate()) {
+      await onFinish(formData);
+    }
+  };
 
+  const onFinish = async (values) => {
+    
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(`${API_URL}/customers/addCustomer`, values, {
@@ -100,17 +82,15 @@ function AddCustomer() {
     } catch (error) {
       console.error('Error adding customer:', error);
       alert("There was an error adding the customer.");
-    }
+    } 
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    onFinish(formData);
+  const handleCancel = () => {
+    navigate('/manager-dashboard');
   };
 
   return (
     <div className={styles.contain}>
-      {/* Topmost Section: Navbar within Image Container */}
       <div className={styles.header}>
         <nav className={styles.navbar}>
           <button className={styles.navButton} onClick={handleClick1}>Home</button>
@@ -178,24 +158,32 @@ function AddCustomer() {
               />
               {errors.name && <div className="error">{errors.name}</div>}
 
-              <label>Notes</label>
+              <label>Adsress</label>
               <textarea 
-                name="notes" 
+                name="address" 
                 rows="3" 
-                value={formData.notes} 
+                value={formData.address} 
                 onChange={handleChange}
               />
 
-              <button class="button button1" type="submit" disabled={loading}>
-                {loading ? "Submitting..." : "Add Customer"}
+              <button 
+                className="button button1" 
+                type="submit" 
+                
+              >
+                Add Customer
               </button>
-              <button class="button button2" type="submit" disabled={loading}>
-                {loading ? "Submitting..." : "Cancel Adding"}
+              <button 
+                type="button" 
+                className="button button2" 
+                onClick={handleCancel}
+               
+              >
+                Cancel
               </button>
             </div>
           </div>
         </form>
-
       </div>
     </div>
   );

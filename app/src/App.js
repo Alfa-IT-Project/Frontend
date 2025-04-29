@@ -11,7 +11,7 @@ import ManagerDashboard from './pages/Manager_dashboard/gm_dashboard.js';
 import CustomerList from './pages/Manager_dashboard/customer_list.js';
 import PurchaseList from './pages/Manager_dashboard/purchase_list.js';
 import AddCustomer from './pages/Manager_dashboard/addCUstomerForm.js';
-
+import ContactList from './pages/Manager_dashboard/AdminContactMessages.js';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
@@ -52,6 +52,7 @@ function App() {
               <Route path="/customers" element={<CustomerList />} />
               <Route path="/purchases" element={<PurchaseList />} />
               <Route path="/addCustomer" element={<AddCustomer />} />
+              <Route path="/contactList" element={<ContactList />} />
           </>
         ) : (
           <Route path="/manager-dashboard" element={<Navigate to="/login" />} />

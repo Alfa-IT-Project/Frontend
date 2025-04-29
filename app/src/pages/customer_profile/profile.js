@@ -6,7 +6,7 @@ const API_URL = 'http://localhost:4000';
 
 function CustomerProfile() {
   const [user, setUser] = useState({});
-  
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -37,6 +37,7 @@ function CustomerProfile() {
     
     <div className="max-w-lg mx-auto p-6">
       <NavBar/>
+
       <Card title="Purchases List" bordered={true} className="shadow-lg">
         
         
@@ -50,7 +51,7 @@ function CustomerProfile() {
 
               <h4 className="mt-2">Items:</h4>
               {purchase.items.map(item => (
-                <p key={item.item_id}><strong>Item:</strong> {item.item.name} - Quantity: {item.quantity}</p>
+                <p key={item.item_id}><strong>Item:</strong> {item.item.name} - Quantity: {item.quantity} Warranties: {item.warranty}</p>
               ))}
 
               <h4 className="mt-2">Promotions:</h4>

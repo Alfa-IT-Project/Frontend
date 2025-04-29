@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-
+import apssaraLogo from './apssaraLogo.png';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const API_URL = 'http://localhost:4000';
@@ -16,7 +16,7 @@ function GenerateReport() {
   const [showForm, setShowForm] = useState(false);
 
   // State variables for form inputs
-  const [userId] = useState('');
+  
   const [reportType, setReportType] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -26,15 +26,23 @@ function GenerateReport() {
 
 
 
-  // Navigation Handlers
+  const handleClick1 = () => {
+    navigate('/manager-dashboard');
+  };
+
   const handleClick2 = () => {
     navigate('/customers');
   };
-
   const handleClick3 = () => {
     navigate('/purchases');
   };
-
+  const handleClick4 = () => {
+    navigate('/contactList');
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("token"); 
+    navigate("/login"); 
+  };
   // Handle report generation button click
   const onClick = () => {
     setShowForm(true); // Show the form when button is clicked
@@ -46,7 +54,7 @@ function GenerateReport() {
       const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
       const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).toISOString().split('T')[0];
   
-      const response = await axios.get(`${API_URL}/purchases/`, {
+      const response = await axios.post(`${API_URL}/purchases/`, {
         params: { start_date: firstDayOfMonth, end_date: lastDayOfMonth },
       });
   
@@ -89,7 +97,7 @@ function GenerateReport() {
   const handleGenerateReport = async (credentials) => {
     const token = localStorage.getItem('token'); // Retrieve token from local storage or any other secure place
     try {
-      const response = await axios.post(`${API_URL}/reports/generate`, credentials, {
+      const response = await axios.post(`${API_URL}/purchases/`, credentials, {
         headers: {
           Authorization: `Bearer ${token}` // Include token in request
         },
@@ -113,11 +121,17 @@ function GenerateReport() {
     <div className={styles.contain}>
       {/* Topmost Section: Navbar within Image Container */}
       <div className={styles.header}>
+        <img src={apssaraLogo} alt="Company Logo" className={styles.logo} />
         <nav className={styles.navbar}>
-          <button className={styles.navButton}>Home</button>
-          <button className={styles.navButton} onClick={handleClick2}>Customers</button>
-          <button className={styles.navButton} onClick={handleClick3}>Purchases</button>
-        </nav>
+        
+                  <button className={styles.navButton} onClick={handleClick1}>Home</button>
+                  <button className={styles.navButton} onClick={handleClick2}>Customers</button>
+                  <button className={styles.navButton} onClick={handleClick3}>Purchases</button>
+                  <button className={styles.navButton} onClick={handleClick4}>ContactList</button>
+                  <button onClick={handleLogout} style={styles.button}>
+                        Logout
+                  </button>
+                </nav>
       </div>
 
       {/* Content Section */}
@@ -138,16 +152,12 @@ function GenerateReport() {
             <form onSubmit={(e) => {
               e.preventDefault();
               handleGenerateReport({
-                user_id: userId,
                 report_type: reportType,
                 start_date: startDate,
                 end_date: endDate
               });
             }} className={styles.reportForm}>
-              <div className={styles.formGroup}>
-                <label htmlFor="user_id">User ID:</label>
-                <input type="text" name="user_id" value={userId} readOnly />
-              </div>
+              
               <div className={styles.formGroup}>
                 <label htmlFor="report_type">Report Type:</label>
                 <select

@@ -1,76 +1,45 @@
-import React, { useState } from 'react';
-import NavBar from "../../components/NavBar.js";
-import axios from 'axios';
+import { useState } from "react";
+import axios from "axios";
+import NavBar from "../../components/NavBar.js"; 
+const ContactUs = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
 
-const API_URL = 'http://localhost:4000';
-function ContactUs() {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        message: '',
-    });
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:4000/contact", formData);
+      console.log("Message sent successfully", response.data);
+      alert("Message sent!");
+      setFormData({ name: "", email: "", subject: "", message: "" }); // Reset form
+    } catch (error) {
+      console.error("Error sending message:", error.response?.data || error.message);
+      alert("Failed to send message");
+    }
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Form submitted:', formData);
-        const response = axios.post(`${API_URL}contact`, formData);
-        setFormData(response.formData)
-    };
+  return (
+    <div>
+        <NavBar/>
 
-    return (
-       <div><NavBar/>
-        <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
-             
-            <h2>Contact Us</h2>
-            <form onSubmit={handleSubmit}>
-                <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="name" style={{ display: 'block', marginBottom: '5px' }}>Name:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
-                        required
-                    />
-                </div>
-                <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="email" style={{ display: 'block', marginBottom: '5px' }}>Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
-                        required
-                    />
-                </div>
-                <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="message" style={{ display: 'block', marginBottom: '5px' }}>Message:</label>
-                    <textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
-                        rows="5"
-                        required
-                    ></textarea>
-                </div>
-                <button type="submit" style={{ padding: '10px 20px', backgroundColor: '#000000', color: '#fff', border: 'none', cursor: 'pointer' }}>
-                    Submit
-                </button>
-            </form>
-        </div>
-        </div>
-    );
+    <form onSubmit={handleSubmit} style={ {maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
+        <h2>Contact Us</h2>
+      <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Your Name" required />
+      <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Your Email" required />
+      <input type="text" name="subject" value={formData.subject} onChange={handleChange} placeholder="Subject" required />
+      <textarea name="message" value={formData.message} onChange={handleChange} placeholder="Message" required />
+      <button type="submit">Send</button>
+    </form>
+    </div>
+  );
 };
 
 export default ContactUs;
