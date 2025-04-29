@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Trash2, Edit, Plus, Eye } from 'lucide-react';
+import Navbar from '../Components/NavBar'; // import Navbar component
 
 function Dashboard() {
     const [dashboardData, setDashboardData] = useState([]);
