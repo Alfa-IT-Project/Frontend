@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from './styles.module.css';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import apssaraLogo from './apssaraLogo.png';
+import Navbar from '../../components/CRM/manager/NavBarAdmin.js'; // Updated Navbar import path
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const API_URL = 'http://localhost:4000';
 
 function GenerateReport() {
-  const navigate = useNavigate();
+  
   
   // State to manage form visibility
   const [showForm, setShowForm] = useState(false);
@@ -25,24 +24,6 @@ function GenerateReport() {
   const [purchaseData, setPurchaseData] = useState([]);
 
 
-
-  const handleClick1 = () => {
-    navigate('/manager-dashboard');
-  };
-
-  const handleClick2 = () => {
-    navigate('/customers');
-  };
-  const handleClick3 = () => {
-    navigate('/purchases');
-  };
-  const handleClick4 = () => {
-    navigate('/contactList');
-  };
-  const handleLogout = () => {
-    localStorage.removeItem("token"); 
-    navigate("/login"); 
-  };
   // Handle report generation button click
   const onClick = () => {
     setShowForm(true); // Show the form when button is clicked
@@ -119,20 +100,7 @@ function GenerateReport() {
 
   return (
     <div className={styles.contain}>
-      {/* Topmost Section: Navbar within Image Container */}
-      <div className={styles.header}>
-        <img src={apssaraLogo} alt="Company Logo" className={styles.logo} />
-        <nav className={styles.navbar}>
-        
-                  <button className={styles.navButton} onClick={handleClick1}>Home</button>
-                  <button className={styles.navButton} onClick={handleClick2}>Customers</button>
-                  <button className={styles.navButton} onClick={handleClick3}>Purchases</button>
-                  <button className={styles.navButton} onClick={handleClick4}>ContactList</button>
-                  <button onClick={handleLogout} style={styles.button}>
-                        Logout
-                  </button>
-                </nav>
-      </div>
+    <Navbar/>
 
       {/* Content Section */}
       <div className={styles.content}>

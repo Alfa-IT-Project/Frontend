@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card } from "antd";
-import NavBar from "../../components/NavBar.js";
+import NavBar from "../../components/CRM/customer/NavBar.js"; // Adjust the path as necessary
 const API_URL = 'http://localhost:4000';
 
 function CustomerProfile() {

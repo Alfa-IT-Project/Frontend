@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import NavBar from "../../components/NavBar.js"; 
+import NavBar from "../../components/CRM/customer/NavBar.js"; 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
     name: "",
