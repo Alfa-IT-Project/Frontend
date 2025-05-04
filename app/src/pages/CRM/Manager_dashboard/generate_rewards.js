@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import Navbar from '../../components/CRM/manager/NavBarAdmin.js';
+import Navbar from '../../../components/CRM/manager/NavBarAdmin.js';
 import './generate_rewards.css'; // Import CSS for styling
 
 function RewardListPage() {
-  const [rewards, setRewards] = useState([]);
+  //const [rewards, setRewards] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [targetCustomers, setTargetCustomers] = useState('all');
   const [points, setPoints] = useState('');
   const [reason, setReason] = useState('');
   const [sendEmail, setSendEmail] = useState(false);
-  const [customers, setCustomers] = useState([
+  const [customers, /*setCustomers*/] = useState([
     { id: 1, user: { name: 'John Doe', email: 'john@example.com', phone: '123-456-7890', address: '123 Main St' }, notes: 'VIP Customer' },
     { id: 2, user: { name: 'Jane Smith', email: 'jane@example.com', phone: '987-654-3210', address: '456 Elm St' }, notes: 'New Customer' },
   ]);

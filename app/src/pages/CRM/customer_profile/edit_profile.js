@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import NavBar from "../../components/CRM/customer/NavBar.js"; // Adjust the path as necessary
+import NavBar from "../../../components/CRM/customer/NavBar.js"; // Adjust the path as necessary
 
 const API_URL = "http://localhost:4000";
 

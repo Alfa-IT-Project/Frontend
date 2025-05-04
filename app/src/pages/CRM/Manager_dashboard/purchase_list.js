@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.css';
 import axios from 'axios';
-import Navbar from '../../components/CRM/manager/NavBarAdmin.js'; // Updated Navbar import path
+import Navbar from '../../../components/CRM/manager/NavBarAdmin.js'; // Updated Navbar import path
 
 const API_URL = 'http://localhost:4000';
 
