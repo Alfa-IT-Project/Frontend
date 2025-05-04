@@ -62,7 +62,7 @@ function Add_Delivery() {
 
         const trackingNumber = generateTrackingNumber();
 
-        axios.post("http://localhost:4000/add", {
+        axios.post("http://localhost:4000/add/delivery", {
             trackingNumber,
             description,
             clientName,

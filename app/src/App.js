@@ -16,10 +16,11 @@ import InventoryHome from './pages/Inventory_management/Home.jsx';
 import InventoryCreate from './pages/Inventory_management/Create.jsx';
 import InventoryEdit from './pages/Inventory_management/Edit.jsx';  
 import InventoryRead from './pages/Inventory_management/Read.jsx';
-// import DeliveryDashboard from './pages/Delivery_Management/Dashoard.js';
-// import AddDelivery from './pages/Delivery_Management/Add_Delivery.js';
-// import UpdateDelivery from './pages/Delivery_Management/UpdateDelivery.js'
-// import Driverdasboard from './pages/Delivery_Management/Driverdashboard.js'
+
+import DeliveryDashboard from './pages/Delivery_Management/Dashoard.js';
+import AddDelivery from './pages/Delivery_Management/Add_Delivery.js';
+import UpdateDelivery from './pages/Delivery_Management/UpdateDelivery.js'
+import Driverdasboard from './pages/Delivery_Management/Driverdashboard.js'
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
   const [role, setRole] = useState(localStorage.getItem('role') || null);
@@ -74,7 +75,7 @@ function App() {
         />
 
         {/* Delivery Routers */}
-        {/* <Route 
+        <Route 
           path="/delivery-manager-dashboard"
           element={token && role === 'delivery_manager' ? (<DeliveryDashboard/>) : (<Navigate to="/login"/>)}
         />
@@ -82,7 +83,14 @@ function App() {
           path="/add"
           element={token && role === 'delivery_manager' ? (<AddDelivery/>) : (<Navigate to="/login"/>)}
         />
-         */}
+        <Route 
+          path="/update/trackingID"
+          element={token && role === 'delivery_manager' ? (<UpdateDelivery/>) : (<Navigate to="/login"/>)}
+        />
+        <Route
+          path="/driver"
+          element={token && role === 'driver' ? (<Driverdasboard/>) : (<Navigate to="/login"/>)}
+        />
          
         {/* Redirect unknown paths to login */}
         {/*Inventory Management Routes */}

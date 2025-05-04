@@ -33,6 +33,8 @@ export default function Login({ setToken , setRole, setUserId}) {
                     navigate('/delivery-manager-dashboard');
                 } else if (response.data.role === 'product_manager') {
                     navigate('/product-manager-dashboard');
+                }else if(response.data.role === 'driver') {
+                    navigate( '/driver');
                 }
             } else {
                 alert('Invalid credentials');
