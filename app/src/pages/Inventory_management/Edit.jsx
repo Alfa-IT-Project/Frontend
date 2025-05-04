@@ -21,7 +21,7 @@ function Edit() {
       return;
     }
     axios
-      .get(`http://localhost:5000/api/inventory/${id}`)
+      .get(`http://localhost:4000/api/inventory/${id}`)
       .then((res) => setItem(res.data))
       .catch((err) => console.log("Error fetching item:", err));
   }, [id]);
