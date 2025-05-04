@@ -28,7 +28,7 @@ function Read() {
   return (
     <div className="container bg-light min-vh-100 p-4">
       <h2 className="text-center my-4">Item Details</h2>
-      <Link to="/" className="btn btn-secondary mb-3">Back</Link>
+      <Link to="/product-manager-dashboard" className="btn btn-secondary mb-3">Back</Link>
 
       {error ? (
         <p className="text-danger">{error}</p>
