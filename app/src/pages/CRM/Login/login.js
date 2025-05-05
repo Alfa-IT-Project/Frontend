@@ -35,6 +35,10 @@ export default function Login({ setToken , setRole, setUserId}) {
                     navigate('/product-manager-dashboard');
                 }else if(response.data.role === 'driver') {
                     navigate( '/driver');
+                }else if(response.data.role === 'supplier_manager') {
+                    navigate('/supplier-manager-dashboard');
+                } else if(response.data.role === 'admin') {
+                    navigate('/admin-dashboard');
                 }
             } else {
                 alert('Invalid credentials');

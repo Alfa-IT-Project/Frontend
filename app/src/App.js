@@ -21,6 +21,13 @@ import DeliveryDashboard from './pages/Delivery_Management/Dashoard.js';
 import AddDelivery from './pages/Delivery_Management/Add_Delivery.js';
 import UpdateDelivery from './pages/Delivery_Management/UpdateDelivery.js'
 import Driverdasboard from './pages/Delivery_Management/Driverdashboard.js'
+
+import SupplierDashboard from './pages/Supplier_management/Home.js';
+import SupplierList from './pages/Supplier_management/Supplier.js';
+import SupplierOrder from './pages/Supplier_management/Order.js';
+import SupplierView from './pages/Supplier_management/Sview.js';
+import SupplierEdit from './pages/Supplier_management/Sedit.js';
+
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
   const [role, setRole] = useState(localStorage.getItem('role') || null);
@@ -92,24 +99,49 @@ function App() {
           element={token && role === 'driver' ? (<Driverdasboard/>) : (<Navigate to="/login"/>)}
         />
          
-        {/* Redirect unknown paths to login */}
+       
         {/*Inventory Management Routes */}
         <Route
           path="/product-manager-dashboard"
           element={token && role === 'product_manager' ? (<InventoryHome />) : (<Navigate to="/login" />)}
         />
-         <Route
+        <Route
           path="/create"
           element={token && role === 'product_manager' ? (<InventoryCreate />) : (<Navigate to="/login" />)}
         />
-         <Route
+        <Route
           path="/edit/:id"
           element={token && role === 'product_manager' ? (<InventoryEdit />) : (<Navigate to="/login" />)}
         />
-         <Route
+        <Route
           path="/read/:id"
           element={token && role === 'product_manager' ? (<InventoryRead />) : (<Navigate to="/login" />)}
         />
+
+        {/*Supplier Management*/}
+        
+        <Route
+          path="/supplier-manager-dashboard"
+          element={token && role === 'supplier_manager' ? (<SupplierDashboard />) : (<Navigate to="/login" />)}
+        />
+        <Route
+          path="/supplier"
+          element={token && role === 'supplier_manager' ? (<SupplierList />) : (<Navigate to="/login" />)}
+        />
+        <Route
+          path="/order"
+          element={token && role === 'supplier_manager' ? (<SupplierOrder />) : (<Navigate to="/login" />)}
+        />
+        <Route
+          path="/sview"
+          element={token && role === 'supplier_manager' ? (<SupplierView />) : (<Navigate to="/login" />)}
+        />
+        <Route  
+          path="/sedit"
+          element={token && role === 'supplier_manager' ? (<SupplierEdit />) : (<Navigate to="/login" />)}
+        />
+
+         {/* Redirect unknown paths to login */}
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
