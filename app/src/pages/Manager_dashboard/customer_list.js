@@ -66,10 +66,10 @@ function CustomerList() {
               {customers.map((customer) => (
                 <tr key={customer.id}>
                   <td>{customer.id}</td>
-                  <td>{customer.user.name}</td>
-                  <td>{customer.user.email}</td>
-                  <td>{customer.user.phone || 'N/A'}</td>
-                  <td>{customer.user.address || 'N/A'}</td>
+                  <td>{customer.name}</td>
+                  <td>{customer.email}</td>
+                  <td>{customer.phone || 'N/A'}</td>
+                  <td>{customer.address || 'N/A'}</td>
                   <td>{customer.notes || 'N/A'}</td>
                   <td>
                     <button onClick={() => handleDelete(customer.id)}>

@@ -103,7 +103,7 @@ function App() {
           }
         />
         <Route
-          path="/contactList"
+          path="/rewardList"
           element={
             token && role === 'general_manager' ? (
               <ContactList />
