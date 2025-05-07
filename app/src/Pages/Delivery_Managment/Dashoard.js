@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Trash2, Edit, Plus, Eye } from 'lucide-react';
-import Navbar from '../Components/NavBar'; // import Navbar component
+import { Trash2, Edit, Plus } from 'lucide-react';
+import Navbar from './Components/NavBarAdmin';
 
 function Dashboard() {
     const [dashboardData, setDashboardData] = useState([]);
@@ -35,19 +35,26 @@ function Dashboard() {
 
     return (
         <div className="min-h-screen bg-gray-100 p-6">
+            <Navbar/>
             <div className="mb-6 flex justify-between items-center">
-                <h1 className="text-4xl font-bold text-gray-800">Delivery Dashboard</h1>
+                <br/>
+                <br/>   
+                <br/>
+                <br/>
+                <br/>
+
+                {/* <h1 className="text-4xl font-bold text-gray-800">Delivery Dashboard</h1> */}
                 <div className="space-x-4">
                     <Link to="/add">
                         <button className="btn btn-success">
-                            <Plus size={16}/> Add
+                            <Plus size={26}/> Add
                         </button>
                     </Link>
-                    <Link to="/driver">
+                    {/* <Link to="/driver">
                         <button className="btn btn-info">
                             <Eye size={16}/> View as Driver
                         </button>
-                    </Link>
+                    </Link> */}
                 </div>
             </div>
             

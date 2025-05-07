@@ -1,6 +1,7 @@
 // DriverDashboard.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Navbar from './Components/NavBarDriver';
 
 function Driverdashboard() {
     const [dashboardData, setDashboardData] = useState([]);
@@ -40,8 +41,13 @@ function Driverdashboard() {
 
     return (
         <div className="min-h-screen bg-gray-100 p-6 flex justify-center items-center">
+            <Navbar/><br/>
+            <br/>   
+            <br/>
+            <br/>
+            
             <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg p-4 overflow-x-auto">
-                <h1 className="text-3xl font-bold text-gray-800 mb-4">Driver Dashboard</h1>
+                {/* <h1 className="text-3xl font-bold text-gray-800 mb-4">Driver Dashboard</h1> */}
                 <table className="min-w-full border-collapse">
                     <thead>
                         <tr className="bg-gray-200">
