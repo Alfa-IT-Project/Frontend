@@ -110,6 +110,15 @@ function Home() {
 
                   <td>
   <div className={styles.radioGroup}>
+  <label>
+      <input
+        type="radio"
+        name={`status-${order.id}`}
+        value="pending"
+        checked={order.deliveryStatus === 'pending'}
+        onChange={() => updateStatus(order.id, 'pending')}
+      /> Pending 
+    </label>
     <label>
       <input
         type="radio"
