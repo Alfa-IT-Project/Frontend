@@ -1,3 +1,4 @@
+// DriverDashboard.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -21,7 +22,7 @@ function Driverdashboard() {
         fetchData();
     }, []);
 
-    // Function to send an email
+    // Send email function
     const sendEmailUpdate = async (data) => {
         try {
             await axios.post('http://localhost:8081/sendemail', {
@@ -32,8 +33,8 @@ function Driverdashboard() {
             });
             alert("Email sent successfully!");
         } catch (error) {
-            alert("Failed to send email.");
             console.error("Error sending email:", error);
+            alert("Failed to send email.");
         }
     };
 
@@ -62,7 +63,11 @@ function Driverdashboard() {
                                 <td className="px-4 py-2 border">{data.Expected_DeliveryDate}</td>
                                 <td className="px-4 py-2 border">{data.Comments}</td>
                                 <td className="px-4 py-2 border">
-                                    <button onClick={() => sendEmailUpdate(data)} className="btn btn-primary">
+                                    <button
+                                        onClick={() => sendEmailUpdate(data)}
+                                        className="btn btn-primary"
+                                        title="Send Email Update"
+                                    >
                                         Send Update
                                     </button>
                                 </td>
