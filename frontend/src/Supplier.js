@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import styles from './supplier.module.css';
 import apssaraLogo from './apssaraLogo.png';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+//import React, { useState, useEffect } from 'react';
+
 
 function Supplier() {
   
@@ -48,7 +50,22 @@ function Supplier() {
             setGender('');
         }
     }
-};
+ };
+
+ useEffect(() => {
+  const fetchNextSupplierId = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/supplier/next-id');
+      setSid(response.data.nextId);
+    } catch (error) {
+      console.error("Error fetching next supplier ID:", error);
+      showAlert('Could not fetch next Supplier ID.', 'error');
+    }
+  };
+
+  fetchNextSupplierId();
+}, []);
+
 
   //supplier name validatiuon
   const handleNameChange = (e) => {
@@ -201,10 +218,11 @@ function Supplier() {
                 <label><strong>Supplier ID</strong></label>
                 <input
                   type="text"
-                  placeholder='Enter ID'
+                  placeholder='Auto-generated ID'
                   value={sid}
-                  onChange={handleSIDChange}
+                  //onChange={handleSIDChange}
                   style={{ border: sidError ? '2px solid red' : '' }} 
+                  readOnly
                 />
                 {sidError && <p className={styles.errorText}>{sidError}</p>}
               </div>
