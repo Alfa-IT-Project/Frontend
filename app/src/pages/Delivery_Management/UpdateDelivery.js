@@ -39,7 +39,7 @@ function UpdateDelivery() {
     const handleSubmit = (event) => {
         event.preventDefault();
         axios.put(`${API_URL}/update/${trackingID}`, data)
-            .then(() => navigate("/"))
+            .then(() => navigate("/delivery-manager-dashboard"))
             .catch(err => {
                 console.error("Error updating:", err);
                 

@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// const API_URL = 'http://localhost:4000';
+
+
 function Add_Delivery() {
     const [description, setDescription] = useState("");
     const [clientName, setClientName] = useState("");
@@ -14,11 +15,11 @@ function Add_Delivery() {
     const [emailError, setEmailError] = useState("");
     const navigate = useNavigate();
 
-    function generateTrackingNumber() {
-        const datePart = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-        const randomPart = Math.floor(1000 + Math.random() * 9000);
-        return `TRK${datePart}-${randomPart}`;
-    }
+    // function generateTrackingNumber() {
+    //     const datePart = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+    //     const randomPart = Math.floor(1000 + Math.random() * 9000);
+    //     return `TRK${datePart}-${randomPart}`;
+    // }
 
     const validateEmail = (email) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -60,10 +61,10 @@ function Add_Delivery() {
             setEmailError("");
         }
 
-        const trackingNumber = generateTrackingNumber();
+        // const trackingNumber = generateTrackingNumber();
 
-        axios.post("http://localhost:4000/add/delivery", {
-            trackingNumber,
+        axios.post("http://localhost:4000/add", {
+            // trackingNumber,
             description,
             clientName,
             deliveryAddress,
@@ -75,7 +76,7 @@ function Add_Delivery() {
         })
         .then((res) => {
             console.log(res);
-            navigate("/ ");
+            navigate("/delivery-manager-dashboard");
         })
         .catch((err) => {
             console.error(err);

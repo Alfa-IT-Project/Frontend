@@ -1,181 +1,159 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import styles from './pmCss.module.css'; // Import the updated CSS module
 
-function Create() {
-    const [values, setValues] = useState({
-        product_name: '',
-        category: '',
-        quantity: '',
-        price: '',
-        supplier_name: '',
-        date_added: ''
-    });
+const Create = () => {
+  const [formData, setFormData] = useState({
+    product_name: '',
+    category: '',
+    quantity: '',
+    price: '',
+    supplier_name: '',
+    date_added: '',
+  });
 
-    const [errors, setErrors] = useState({
-        quantity: '',
-        price: '',
-        date_added: ''
-    });
+  const [errors, setErrors] = useState({});
 
-    const navigate = useNavigate();
+  const validate = () => {
+    const newErrors = {};
 
-    // Handle input field changes
-    function handleChange(e) {
-        setValues(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    if (!formData.product_name.trim()) {
+      newErrors.product_name = 'Product Name is required';
     }
 
-    // Validate date format (YYYY-MM-DD)
-    function isValidDateFormat(dateString) {
-        return /^\d{4}-\d{2}-\d{2}$/.test(dateString);
+    if (!formData.category) {
+      newErrors.category = 'Please select a category';
     }
 
-    // Form validation logic
-    function validateForm() {
-        const newErrors = {
-            quantity: '',
-            price: '',
-            date_added: ''
-        };
-
-        if (parseInt(values.quantity) <= 0 || isNaN(values.quantity)) {
-            newErrors.quantity = "Quantity must be a positive integer.";
-        }
-
-        if (parseFloat(values.price) <= 0 || isNaN(values.price)) {
-            newErrors.price = "Price must be a positive number.";
-        }
-
-        if (!isValidDateFormat(values.date_added)) {
-            newErrors.date_added = "Date must be in YYYY-MM-DD format.";
-        }
-
-        setErrors(newErrors);
-
-        return !newErrors.quantity && !newErrors.price && !newErrors.date_added;
+    if (!formData.quantity || isNaN(formData.quantity) || parseInt(formData.quantity) <= 0) {
+      newErrors.quantity = 'Quantity must be a positive integer';
     }
 
-    // Handle form submission
-    function handleSubmit(e) {
-        e.preventDefault();
-
-        if (!validateForm()) {
-            return;
-        }
-
-        // Round the price to 2 decimal places
-        const roundedPrice = parseFloat(values.price).toFixed(2);
-
-        const updatedValues = {
-            ...values,
-            price: roundedPrice
-        };
-
-        // Send data to the backend API
-        axios.post("http://localhost:4000/add_item", updatedValues)
-            .then((res) => {
-                console.log("Item added successfully:", res.data);
-                setValues({
-                    product_name: '',
-                    category: '',
-                    quantity: '',
-                    price: '',
-                    supplier_name: '',
-                    date_added: ''
-                });
-                navigate('/product-manager-dashboard');
-            })
-            .catch((err) => {
-                console.error("Error adding item:", err);
-            });
+    if (!formData.price || isNaN(formData.price) || parseFloat(formData.price) <= 0) {
+      newErrors.price = 'Price must be a positive number';
     }
 
-    return (
-        <div className="vh-100 vw-100 bg-primary d-flex align-items-center justify-content-center">
-            <div className="container bg-light p-4 rounded shadow">
-                <h3 className="text-center">Add Product</h3>
-                <div className="d-flex justify-content-end mb-3">
-                    <Link to="/product-manager-dashboard" className="btn btn-success">Home</Link>
-                </div>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group my-3">
-                        <label htmlFor="product_name">Product Name</label>
-                        <input 
-                            type="text" 
-                            name="product_name" 
-                            value={values.product_name} 
-                            required 
-                            onChange={handleChange} 
-                            className="form-control" 
-                        />
-                    </div>
-                    <div className="form-group my-3">
-                        <label htmlFor="category">Category</label>
-                        <input 
-                            type="text" 
-                            name="category" 
-                            value={values.category} 
-                            required 
-                            onChange={handleChange} 
-                            className="form-control" 
-                        />
-                    </div>
-                    <div className="form-group my-3">
-                        <label htmlFor="quantity">Quantity</label>
-                        <input 
-                            type="number" 
-                            name="quantity" 
-                            value={values.quantity} 
-                            required 
-                            onChange={handleChange} 
-                            className="form-control" 
-                        />
-                        {errors.quantity && <small className="text-danger">{errors.quantity}</small>}
-                    </div>
-                    <div className="form-group my-3">
-                        <label htmlFor="price">Price</label>
-                        <input 
-                            type="number" 
-                            step="0.01" 
-                            name="price" 
-                            value={values.price} 
-                            required 
-                            onChange={handleChange} 
-                            className="form-control" 
-                        />
-                        {errors.price && <small className="text-danger">{errors.price}</small>}
-                    </div>
-                    <div className="form-group my-3">
-                        <label htmlFor="supplier_name">Supplier Name</label>
-                        <input 
-                            type="text" 
-                            name="supplier_name" 
-                            value={values.supplier_name} 
-                            required 
-                            onChange={handleChange} 
-                            className="form-control" 
-                        />
-                    </div>
-                    <div className="form-group my-3">
-                        <label htmlFor="date_added">Date (YYYY-MM-DD)</label>
-                        <input 
-                            type="text" 
-                            name="date_added" 
-                            value={values.date_added} 
-                            required 
-                            onChange={handleChange} 
-                            className="form-control" 
-                            placeholder="e.g. 2025-04-04"
-                        />
-                        {errors.date_added && <small className="text-danger">{errors.date_added}</small>}
-                    </div>
-                    <div className="form-group my-3">
-                        <button type="submit" className="btn btn-success w-100">Save</button>
-                    </div>
-                </form>
-            </div>
+    if (!formData.supplier_name.trim()) {
+      newErrors.supplier_name = 'Supplier Name is required';
+    }
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(formData.date_added)) {
+      newErrors.date_added = 'Date must be in YYYY-MM-DD format';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      alert('Product saved successfully!');
+      console.log(formData);
+      // Submit to backend or reset form here
+    }
+  };
+
+  return (
+    <div className={styles.mainContainer}>
+      <div className={styles.formCard}>
+        <h3 className={styles.formTitle}>Add Product</h3>
+        <div className={styles.homeButton}>
+          <a href="/" className={styles.btnSuccess}>Home</a>
         </div>
-    );
-}
+        <form onSubmit={handleSubmit}>
+          <div className={styles.formGroup}>
+            <label>Product Name</label>
+            <input
+              type="text"
+              name="product_name"
+              className={styles.formControl}
+              value={formData.product_name}
+              onChange={handleChange}
+            />
+            {errors.product_name && <small className={styles.textDanger}>{errors.product_name}</small>}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>Category</label>
+            <div className={styles.customSelectWrapper}>
+              <select
+                name="category"
+                className={styles.formControl}
+                value={formData.category}
+                onChange={handleChange}
+              >
+                <option value="">Select a category</option>
+                <option value="Tools">Tools</option>
+                <option value="Paints">Paints</option>
+                <option value="Electrical">Electrical</option>
+                <option value="Plumbing">Plumbing</option>
+                <option value="Building Materials">Building Materials</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            {errors.category && <small className={styles.textDanger}>{errors.category}</small>}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>Quantity</label>
+            <input
+              type="number"
+              name="quantity"
+              className={styles.formControl}
+              value={formData.quantity}
+              onChange={handleChange}
+            />
+            {errors.quantity && <small className={styles.textDanger}>{errors.quantity}</small>}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>Price</label>
+            <input
+              type="number"
+              name="price"
+              step="0.01"
+              className={styles.formControl}
+              value={formData.price}
+              onChange={handleChange}
+            />
+            {errors.price && <small className={styles.textDanger}>{errors.price}</small>}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>Supplier Name</label>
+            <input
+              type="text"
+              name="supplier_name"
+              className={styles.formControl}
+              value={formData.supplier_name}
+              onChange={handleChange}
+            />
+            {errors.supplier_name && <small className={styles.textDanger}>{errors.supplier_name}</small>}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>Date</label>
+            <input
+              type="date"
+              name="date_added"
+              className={styles.formControl}
+              value={formData.date_added}
+              onChange={handleChange}
+            />
+            {errors.date_added && <small className={styles.textDanger}>{errors.date_added}</small>}
+          </div>
+
+          <div className={styles.formGroup}>
+            <button type="submit" className={`${styles.btnSuccess} ${styles.fullWidth}`}>Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 export default Create;

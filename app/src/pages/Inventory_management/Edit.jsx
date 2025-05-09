@@ -1,145 +1,135 @@
-import React, { useState, useEffect } from "react"; 
-import { Link, useParams, useNavigate } from "react-router-dom"; 
-import axios from "axios";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function Edit() { 
-  const [item, setItem] = useState({
-    product_name: "",
-    category: "",
-    quantity: "",
-    price: "",
-    supplier_name: "", // New field for supplier
-    date_added: "" // New field for date
+import styles from './pmCss.module.css';
+
+const Edit = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    product_name: '',
+    category: '',
+    quantity: '',
+    price: '',
+    supplier_name: '',
+    date_added: '',
   });
 
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  useEffect(() => {
-    if (!id) {
-      console.error("Item ID is missing!");
-      return;
-    }
-    axios
-      .get(`http://localhost:4000/api/inventory/${id}`)
-      .then((res) => setItem(res.data))
-      .catch((err) => console.log("Error fetching item:", err));
-  }, [id]);
-
-  function handleChange(e) {
-    setItem({ ...item, [e.target.name]: e.target.value });
-  }
-
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate the input data
-    if (parseInt(item.quantity) <= 0 || isNaN(item.quantity)) {
+    const { quantity, price } = formData;
+
+    if (parseInt(quantity) <= 0 || isNaN(quantity)) {
       alert("Quantity must be a positive integer.");
       return;
     }
 
-    if (parseFloat(item.price) <= 0 || isNaN(item.price)) {
+    if (parseFloat(price) <= 0 || isNaN(price)) {
       alert("Price must be a positive number.");
       return;
     }
 
-    // Validate the supplier_name and date_added
-    if (!item.supplier_name) {
-      alert("Supplier name is required.");
-      return;
-    }
-
-    if (!item.date_added) {
-      alert("Date added is required.");
-      return;
-    }
-
-    axios
-      .put(`http://localhost:4000/api/inventory/update/${id}`, item)
-      .then(() => {
-        console.log("Item updated successfully");
-        navigate("/");  // Redirect to home (after saving)
-      })
-      .catch((err) => console.log("Error updating item:", err));
-  }
+    console.log('Updated Item:', formData);
+    alert('Item updated successfully!');
+  };
 
   return (
-    <div className="container bg-light min-vh-100">
-      <h2 className="text-center my-4">Edit Inventory Item</h2>
-      <Link to="/product-manager-dashboard" className="btn btn-secondary mb-3">Back</Link>
-      
-      <form onSubmit={handleSubmit} className="border p-4 rounded bg-white">
-        <div className="form-group my-3">
-          <label htmlFor="product_name">Item Name</label>
+    <div className={styles.container}>
+      <h2 className={styles.formTitle}>Edit Inventory Item</h2>
+
+      <div className={styles.homeButton}>
+        <button className={styles.btnSuccess} onClick={() => navigate('/product-manager-dashboard')}>Home</button>
+      </div>
+
+      <form onSubmit={handleSubmit}>
+        <div className={styles.formGroup}>
+          <label>Product Name</label>
           <input
             type="text"
             name="product_name"
-            className="form-control"
-            value={item.product_name}
-            required
+            value={formData.product_name}
             onChange={handleChange}
+            className={styles.formControl}
+            required
           />
         </div>
-        <div className="form-group my-3">
-          <label htmlFor="category">Category</label>
-          <input
-            type="text"
+
+        <div className={styles.formGroup}>
+          <label>Category</label>
+          <select
             name="category"
-            className="form-control"
-            value={item.category}
-            required
+            value={formData.category}
             onChange={handleChange}
-          />
+            className={styles.formControl}
+            required
+          >
+            <option value="">Select a category</option>
+            <option value="Tools">Tools</option>
+            <option value="Paints">Paints</option>
+            <option value="Electrical">Electrical</option>
+            <option value="Plumbing">Plumbing</option>
+            <option value="Building Materials">Building Materials</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
-        <div className="form-group my-3">
-          <label htmlFor="quantity">Quantity</label>
+
+        <div className={styles.formGroup}>
+          <label>Quantity</label>
           <input
             type="number"
             name="quantity"
-            className="form-control"
-            value={item.quantity}
-            required
+            value={formData.quantity}
             onChange={handleChange}
+            className={styles.formControl}
+            required
           />
         </div>
-        <div className="form-group my-3">
-          <label htmlFor="price">Price (LKR)</label>
+
+        <div className={styles.formGroup}>
+          <label>Price</label>
           <input
             type="number"
             name="price"
-            className="form-control"
-            value={item.price}
-            required
+            value={formData.price}
             onChange={handleChange}
+            className={styles.formControl}
+            required
           />
         </div>
-        <div className="form-group my-3">
-          <label htmlFor="supplier_name">Supplier Name</label>
+
+        <div className={styles.formGroup}>
+          <label>Supplier Name</label>
           <input
             type="text"
             name="supplier_name"
-            className="form-control"
-            value={item.supplier_name}
-            required
+            value={formData.supplier_name}
             onChange={handleChange}
+            className={styles.formControl}
+            required
           />
         </div>
-        <div className="form-group my-3">
-          <label htmlFor="date_added">Date Added</label>
+
+        <div className={styles.formGroup}>
+          <label>Date</label>
           <input
             type="date"
             name="date_added"
-            className="form-control"
-            value={item.date_added}
-            required
+            value={formData.date_added}
             onChange={handleChange}
+            className={styles.formControl}
+            required
           />
         </div>
-        <button type="submit" className="btn btn-success">Save Changes</button>
+
+        <button type="submit" className={`${styles.btnSuccess} ${styles.fullWidth}`}>Save</button>
       </form>
     </div>
   );
-}
+};
 
 export default Edit;

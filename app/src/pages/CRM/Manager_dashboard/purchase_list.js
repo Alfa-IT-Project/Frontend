@@ -50,9 +50,9 @@ function PurchaseList() {
 
             {/* Purchases List Section */}
             <div className={styles.content}>
-                <div className="customer-section">
+                <div className={styles.customerSection}>
                     <h2>Customer Purchases</h2>
-                    <table className="customer-table">
+                    <table className={styles.customerTable}>
                         <thead>
                             <tr>
                                 <th>Purchase ID</th>
@@ -85,7 +85,7 @@ function PurchaseList() {
                                     {expandedRows.has(purchase.purchase_id) && (
                                         <tr>
                                             <td colSpan="7">
-                                                <table className="item-details">
+                                                <table className={styles.itemDetails}>
                                                     <thead>
                                                         <tr>
                                                             <th>Item ID</th>

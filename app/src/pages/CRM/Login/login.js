@@ -37,8 +37,10 @@ export default function Login({ setToken , setRole, setUserId}) {
                     navigate( '/driver');
                 }else if(response.data.role === 'supplier_manager') {
                     navigate('/supplier-manager-dashboard');
-                } else if(response.data.role === 'admin') {
-                    navigate('/admin-dashboard');
+                } else if(response.data.role === 'ADMIN') {
+                    navigate('/manager');
+                } else if(response.data.role === 'STAFF') {
+                    navigate('/staff');
                 }
             } else {
                 alert('Invalid credentials');

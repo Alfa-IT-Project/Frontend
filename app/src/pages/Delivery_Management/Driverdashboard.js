@@ -1,5 +1,7 @@
+// DriverDashboard.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Navbar from '../../components/Delivery_management/NavBarDriver'; // Adjust the import path as necessary
 
 function Driverdashboard() {
     const [dashboardData, setDashboardData] = useState([]);
@@ -7,7 +9,7 @@ function Driverdashboard() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:4000/deliveries');
+                const response = await axios.get('http://localhost:4000/');
                 if (Array.isArray(response.data)) {
                     setDashboardData(response.data);
                 } else {
@@ -21,7 +23,7 @@ function Driverdashboard() {
         fetchData();
     }, []);
 
-    // Function to send an email
+    // Send email function
     const sendEmailUpdate = async (data) => {
         try {
             await axios.post('http://localhost:4000/sendemail', {
@@ -32,15 +34,20 @@ function Driverdashboard() {
             });
             alert("Email sent successfully!");
         } catch (error) {
-            alert("Failed to send email.");
             console.error("Error sending email:", error);
+            alert("Failed to send email.");
         }
     };
 
     return (
         <div className="min-h-screen bg-gray-100 p-6 flex justify-center items-center">
+            <Navbar/><br/>
+            <br/>   
+            <br/>
+            <br/>
+            
             <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg p-4 overflow-x-auto">
-                <h1 className="text-3xl font-bold text-gray-800 mb-4">Driver Dashboard</h1>
+                {/* <h1 className="text-3xl font-bold text-gray-800 mb-4">Driver Dashboard</h1> */}
                 <table className="min-w-full border-collapse">
                     <thead>
                         <tr className="bg-gray-200">
@@ -62,7 +69,11 @@ function Driverdashboard() {
                                 <td className="px-4 py-2 border">{data.Expected_DeliveryDate}</td>
                                 <td className="px-4 py-2 border">{data.Comments}</td>
                                 <td className="px-4 py-2 border">
-                                    <button onClick={() => sendEmailUpdate(data)} className="btn btn-primary">
+                                    <button
+                                        onClick={() => sendEmailUpdate(data)}
+                                        className="btn btn-primary"
+                                        title="Send Email Update"
+                                    >
                                         Send Update
                                     </button>
                                 </td>

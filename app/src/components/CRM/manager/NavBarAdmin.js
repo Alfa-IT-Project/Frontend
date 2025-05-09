@@ -37,8 +37,8 @@ const Navbar = () => {
           Purchases
         </button>
         <button
-          className={`${styles.navButton} ${isActive('/contactList') ? styles.active : ''}`}
-          onClick={() => navigate('/contactList')}
+          className={`${styles.navButton} ${isActive('/rewardList') ? styles.active : ''}`}
+          onClick={() => navigate('/rewardList')}
         >
           Generate Rewards
         </button>

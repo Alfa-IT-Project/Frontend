@@ -48,9 +48,9 @@ function CustomerList() {
     <div className={styles.contain}>
       <Navbar /> {/* Navbar handles navigation */}
       <div className={styles.content}>
-        <div className="customer-section">
+        <div className={styles.customerSection}>
           <h2>Customers</h2>
-          <table className="customer-table">
+          <table className={styles.customerTable}>
             <thead>
               <tr>
                 <th>Customer ID</th>
@@ -68,7 +68,7 @@ function CustomerList() {
                   <td>{customer.id}</td>
                   <td>{customer.user.name}</td>
                   <td>{customer.user.email}</td>
-                  <td>{customer.user.phone || 'N/A'}</td>
+                  <td>{customer.user.phoneNumber || 'N/A'}</td>
                   <td>{customer.user.address || 'N/A'}</td>
                   <td>{customer.notes || 'N/A'}</td>
                   <td>
