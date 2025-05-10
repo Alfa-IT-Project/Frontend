@@ -4,7 +4,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    background-color: #f0f0f0;
+    background-color: #f5f5f5;
     min-height: 100vh; 
 }
 
@@ -55,45 +55,73 @@
 
 /* Content Section Styling */
 .content {
-    max-width: 1200px; 
-    width: 100%; 
-    padding: 20px;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
     background-color: white;
     border-radius: 10px;
     margin-top: 140px; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Orders Section Styling */
-.ordersSection {
-    margin-top: 20px;
+/* Customer Section Styling */
+.customerSection {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
 }
 
-/* Orders Table Styling */
-.ordersTable {
-    width: 100%; 
+.customerSection h2 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+/* Table Styling */
+.customerTable {
+    width: 100%;
     border-collapse: collapse;
+    margin-top: 1rem;
 }
 
-.ordersTable th, .ordersTable td {
-    padding: 10px;
-    border: 1px solid #ddd;
+.customerTable th,
+.customerTable td {
+    padding: 1rem;
     text-align: left;
+    border-bottom: 1px solid #eee;
 }
 
-.ordersTable th {
-    background-color: #f2f2f2;
+.customerTable th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
 }
 
-/* Table Button Styling */
-/* Button Container Styling */
-.buttonContainer {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+.customerTable tr:hover {
+    background-color: #f8f9fa;
 }
 
-/* Add New Order Button Styling */
+/* Button Styling */
+.deleteButton {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.deleteButton:hover {
+    background-color: #c82333;
+}
+
+.deleteButton:active {
+    background-color: #bd2130;
+}
+
 .tableButton {
     background-color: #1c1c1c;
     color: white;
@@ -106,9 +134,10 @@
 }
 
 .tableButton:hover {
-    background-color:rgba(255, 170, 1);
+    background-color: rgba(255, 170, 1);
     color: rgb(18, 19, 18);
 }
+
 /* Form Styling */
 .reportForm {
     width: 100%;
@@ -127,7 +156,6 @@
     text-align: center;
 }
 
-/* Form Group Styling */
 .formGroup {
     margin-bottom: 15px;
 }
@@ -140,7 +168,6 @@
     color: #333;
 }
 
-/* Form Inputs */
 .reportForm input,
 .reportForm select {
     width: 100%;
@@ -159,7 +186,6 @@
     background-color: #fff;
 }
 
-/* Submit Button Styling */
 .submitButton {
     background-color: #1c1c1c;
     color: white;
@@ -167,5 +193,115 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1r
+    font-size: 1rem;
 }
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .content {
+        padding: 1rem;
+    }
+
+    .customerSection {
+        padding: 1rem;
+    }
+
+    .customerTable {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .customerTable th,
+    .customerTable td {
+        padding: 0.75rem;
+    }
+}
+
+.errorMessage {
+    color: #dc3545;
+    
+    
+   
+    font-size: 14px;
+}
+
+/* Dashboard Grid Layout */
+.dashboardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    padding: 1rem;
+}
+
+/* Dashboard Card Styling */
+.dashboardCard {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.dashboardCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dashboardCard h2 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 0.5rem;
+}
+
+/* Form Container Styling */
+.formContainer {
+    margin-top: 1rem;
+}
+
+/* Chart Container Styling */
+.chartContainer {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #fafafa;
+    border-radius: 8px;
+}
+
+/* No Data Message */
+.noDataMessage {
+    text-align: center;
+    color: #666;
+    padding: 2rem;
+    background-color: #fafafa;
+    border-radius: 8px;
+    font-style: italic;
+}
+
+.filterSection {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tierSelect {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.tierSelect:hover {
+  border-color: #666;
+}
+
+.tierSelect:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+  

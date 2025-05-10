@@ -1,0 +1,145 @@
+/* Header Styling */
+.header {
+    width: 100%;
+    height: 110px;
+    background-color: #1c1c1c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: auto;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+}
+
+/* Logo Styling */
+.logo {
+    height: 80%;
+    object-fit: contain;
+}
+
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    gap: 10px; 
+}
+
+/* Navbar Button Styling */
+.navButton {
+    background-color: rgba(2, 172, 2, 0);
+    color: rgb(255, 170, 0);
+    padding: 10px 20px;
+    border: 1px solid black;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: large;
+    font-family: 'Lucida Sans', sans-serif;
+    font-weight: bold;
+}
+
+.navButton:hover {
+    background-color: rgba(255, 170, 1);
+    color: rgb(18, 19, 18);
+}
+
+.navButton:focus, .navButton:active {
+    background-color: rgba(255, 170, 1);
+    color: rgb(18, 19, 18);
+    outline: none; /* Remove the default focus outline */
+}
+.active {
+    background-color: rgba(255, 170, 1);
+    color: rgb(18, 19, 18);
+}
+
+
+
+
+
+
+
+/* Table Button Styling */
+/* Button Container Styling */
+/* .buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+} */
+
+/* Add New Order Button Styling */
+/* .tableButton {
+    background-color: #1c1c1c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+} */
+
+/* .tableButton:hover {
+    background-color:rgba(255, 170, 1);
+    color: rgb(18, 19, 18);
+} */
+/* Form Styling */
+/* .reportForm {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+} */
+
+/* .reportForm h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+} */
+
+/* Form Group Styling */
+/* .formGroup {
+    margin-bottom: 15px;
+}
+
+.formGroup label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: #333;
+} */
+
+/* Form Inputs */
+/* .reportForm input,
+.reportForm select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #f9f9f9;
+} */
+
+/* .reportForm input:focus,
+.reportForm select:focus {
+    outline: none;
+    border-color: #1c1c1c;
+    background-color: #fff;
+} */
+
+/* Submit Button Styling */
+/* .submitButton {
+    background-color: #1c1c1c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1r
+} */

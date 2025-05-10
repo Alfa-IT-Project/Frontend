@@ -382,11 +382,11 @@ const ScheduleManager = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {staffAvailability.map((staff) => (
                 <div
-                  key={staff.id}
+                  key={staff.userId}
                   className={`p-4 rounded-lg border ${
-                    staff.status === 'AVAILABLE' 
+                    staff.isAvailable 
                       ? 'border-green-200 bg-green-50' 
-                      : staff.status === 'ON_LEAVE' 
+                      : staff.onLeave 
                         ? 'border-red-200 bg-red-50' 
                         : 'border-yellow-200 bg-yellow-50'
                   }`}>
@@ -395,26 +395,26 @@ const ScheduleManager = () => {
                   <div className="mt-2">
                     <span
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                        ${staff.status === 'AVAILABLE' 
+                        ${staff.isAvailable 
                           ? 'bg-green-100 text-green-800' 
-                          : staff.status === 'ON_LEAVE' 
+                          : staff.onLeave 
                             ? 'bg-red-100 text-red-800' 
                             : 'bg-yellow-100 text-yellow-800'
                         }`}>
-                      {staff.status === 'AVAILABLE' 
+                      {staff.isAvailable 
                         ? 'Available' 
-                        : staff.status === 'ON_LEAVE' 
-                          ? `On Leave (${staff.leaveType})` 
+                        : staff.onLeave 
+                          ? 'On Leave' 
                           : 'Scheduled'}
                     </span>
                   </div>
-                  {staff.scheduledTime && (
+                  {staff.isScheduled && staff.schedules && staff.schedules.length > 0 && (
                     <div className="mt-2 text-sm">
                       <div>
-                        Time: {format(new Date(staff.scheduledTime.start), 'h:mm a')} - 
-                        {format(new Date(staff.scheduledTime.end), 'h:mm a')}
+                        Time: {format(new Date(staff.schedules[0].startTime), 'h:mm a')} - 
+                        {format(new Date(staff.schedules[0].endTime), 'h:mm a')}
                       </div>
-                      <div>Shift: {staff.scheduledTime.shiftType}</div>
+                      <div>Shift: {staff.schedules[0].shiftType}</div>
                     </div>
                   )}
                 </div>

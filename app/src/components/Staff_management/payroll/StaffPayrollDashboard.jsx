@@ -9,6 +9,18 @@ import Modal from '../ui/modal';
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
 import PayrollCheckModal from './PayrollCheckModal';
+import { 
+  ArrowLeftIcon, 
+  PlusIcon, 
+  PencilIcon, 
+  TrashIcon, 
+  CheckCircleIcon, 
+  BanknotesIcon,
+  DocumentIcon,
+  PrinterIcon,
+  CurrencyDollarIcon,
+  CalendarIcon
+} from '@heroicons/react/24/outline';
 
 export const StaffPayrollDashboard = ({ staffId, onBack, isAdmin = false }) => {
   const queryClient = useQueryClient();
@@ -19,6 +31,10 @@ export const StaffPayrollDashboard = ({ staffId, onBack, isAdmin = false }) => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [recordToDelete, setRecordToDelete] = useState(null);
   const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('details'); // 'details' or 'history'
+
+  // Log admin status to verify it's being passed correctly
+  console.log('StaffPayrollDashboard - isAdmin:', isAdmin);
 
   const { data: response, isLoading, refetch } = useQuery({
     queryKey: ['staffPayroll', staffId],
@@ -29,6 +45,7 @@ export const StaffPayrollDashboard = ({ staffId, onBack, isAdmin = false }) => {
     mutationFn: (id) => payroll.approve(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['staffPayroll', staffId] });
+      toast.success('Payroll record approved successfully');
     },
   });
 
@@ -36,6 +53,7 @@ export const StaffPayrollDashboard = ({ staffId, onBack, isAdmin = false }) => {
     mutationFn: (id) => payroll.markAsPaid(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['staffPayroll', staffId] });
+      toast.success('Payroll record marked as paid');
     },
   });
 
@@ -64,7 +82,11 @@ export const StaffPayrollDashboard = ({ staffId, onBack, isAdmin = false }) => {
     record.month === selectedMonth);
 
   const currentRecord = filteredRecords[0];
-  const totalPayroll = currentRecord?.netSalary || 0;
+  const historyRecords = validPayrollRecords.sort((a, b) => {
+    // Sort by year and month, most recent first
+    if (a.year !== b.year) return Number(b.year) - Number(a.year);
+    return Number(b.month) - Number(a.month);
+  });
 
   const handleEdit = (record) => {
     setSelectedRecord(record);
@@ -133,177 +155,307 @@ export const StaffPayrollDashboard = ({ staffId, onBack, isAdmin = false }) => {
     setIsPrintModalOpen(true);
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  // Format a date string in readable format
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Not set';
+    try {
+      return format(new Date(dateString), 'MMMM d, yyyy');
+    } catch (e) {
+      return 'Invalid date';
+    }
+  };
+
+  if (isLoading) return (
+    <div className="flex justify-center items-center h-64">
+      <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-600"></div>
+    </div>
+  );
 
   return (
     <div className="container mx-auto py-6">
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-4">
-          <Button onClick={onBack} variant="outline">Back</Button>
-          <h1 className="text-2xl font-bold">Payroll Details</h1>
-        </div>
-        <div className="flex gap-4">
-          <select
-            value={selectedMonth}
-            onChange={(e) => {
-              setSelectedMonth(e.target.value);
-              // Refresh data when changing month
-              queryClient.invalidateQueries({ queryKey: ['staffPayroll', staffId] });
-            }}
-            className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-            {Array.from({ length: 12 }, (_, i) => {
-              const month = (i + 1).toString().padStart(2, '0');
-              return (
-                <option key={month} value={month}>
-                  {format(new Date(2000, i), 'MMMM')}
-                </option>
-              );
-            })}
-          </select>
-          <select
-            value={selectedYear}
-            onChange={(e) => {
-              setSelectedYear(e.target.value);
-              // Refresh data when changing year
-              queryClient.invalidateQueries({ queryKey: ['staffPayroll', staffId] });
-            }}
-            className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-            {Array.from({ length: 5 }, (_, i) => (
-              <option key={i} value={new Date().getFullYear() - i}>
-                {new Date().getFullYear() - i}
-              </option>
-            ))}
-          </select>
-          {isAdmin && (
-            <Button onClick={() => setIsModalOpen(true)}>Add Payroll Record</Button>
-          )}
+      <div className="flex justify-between items-center mb-8">
+        <div className="flex items-center gap-3">
+          <Button 
+            onClick={onBack} 
+            variant="outline" 
+            className="text-gray-700 hover:bg-gray-100 flex items-center gap-1.5 border-gray-300 h-10 rounded-full px-4 transition-all duration-200 hover:shadow-sm">
+            <ArrowLeftIcon className="h-5 w-5" />
+            Back
+          </Button>
+          <h1 className="text-2xl font-bold text-gray-800">Staff Payroll</h1>
         </div>
       </div>
-      {currentRecord ? (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h3 className="text-lg font-medium text-gray-900">Net Salary</h3>
-              <p className="text-3xl font-bold text-indigo-600 mt-2">
-                {formatCurrency(currentRecord.netSalary)}
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h3 className="text-lg font-medium text-gray-900">Status</h3>
-              <p
-                className={`text-2xl font-bold mt-2 ${
-                  currentRecord.status === 'PAID' ? 'text-green-600' :
-                  currentRecord.status === 'APPROVED' ? 'text-blue-600' :
-                  'text-yellow-600'
-                }`}>
-                {currentRecord.status}
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h3 className="text-lg font-medium text-gray-900">Payment Date</h3>
-              <p className="text-2xl font-bold text-gray-600 mt-2">
-                {currentRecord.paymentDate ? new Date(currentRecord.paymentDate).toLocaleDateString() : 'Pending'}
-              </p>
-            </div>
-          </div>
 
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Component</TableHead>
-                  <TableHead>Amount</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell>Basic Salary</TableCell>
-                  <TableCell>{formatCurrency(currentRecord.basicSalary)}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Allowances</TableCell>
-                  <TableCell>{formatCurrency(currentRecord.allowances)}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Deductions</TableCell>
-                  <TableCell>{formatCurrency(currentRecord.deductions)}</TableCell>
-                </TableRow>
-                <TableRow className="font-bold">
-                  <TableCell>Net Salary</TableCell>
-                  <TableCell>{formatCurrency(currentRecord.netSalary)}</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-4">
+          <div className="bg-gray-50 px-4 py-2 rounded-full flex items-center gap-2 h-11 shadow-sm border border-gray-200">
+            <select
+              value={selectedMonth}
+              onChange={(e) => {
+                setSelectedMonth(e.target.value);
+                queryClient.invalidateQueries({ queryKey: ['staffPayroll', staffId] });
+              }}
+              className="bg-transparent text-gray-700 border-none focus:ring-0 focus:outline-none appearance-none pr-8 pl-2 py-1 h-8">
+              {Array.from({ length: 12 }, (_, i) => {
+                const month = (i + 1).toString().padStart(2, '0');
+                return (
+                  <option key={month} value={month} className="text-gray-800">
+                    {format(new Date(2000, i), 'MMMM')}
+                  </option>
+                );
+              })}
+            </select>
           </div>
-
-          {isAdmin && (
-            <div className="mt-6 flex justify-end gap-4">
-              {currentRecord.status === 'PENDING' && (
-                <>
-                  <Button
-                    onClick={() => handleEdit(currentRecord)}
-                    variant="outline"
-                    className="text-blue-600 border-blue-600">
-                    Edit
-                  </Button>
-                </>
-              )}
-              
-              <Button
-                onClick={() => handleDelete(currentRecord.id)}
-                variant="outline"
-                className="text-red-600 border-red-600"
-                disabled={deleteMutation.isPending}>
-                {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
-              </Button>
-              
-              {currentRecord.status === 'PENDING' && (
-                <Button
-                  onClick={() => approveMutation.mutate(currentRecord.id)}
-                  className="bg-blue-600 hover:bg-blue-700">
-                  Approve Payroll
-                </Button>
-              )}
-              {currentRecord.status === 'APPROVED' && (
-                <Button
-                  onClick={() => markAsPaidMutation.mutate(currentRecord.id)}
-                  className="bg-green-600 hover:bg-green-700">
-                  Mark as Paid
-                </Button>
-              )}
-              
-              {(currentRecord.status === 'APPROVED' || currentRecord.status === 'PAID') && (
-                <Button onClick={handlePrintCheck} className="bg-purple-600 hover:bg-purple-700">
-                  🖨️ Print Check
-                </Button>
-              )}
-            </div>
-          )}
           
-          {/* For staff users (non-admin), also show print check button if status is approved or paid */}
-          {!isAdmin && (currentRecord.status === 'APPROVED' || currentRecord.status === 'PAID') && (
-            <div className="mt-6 flex justify-end gap-4">
-              <Button onClick={handlePrintCheck} className="bg-purple-600 hover:bg-purple-700">
-                🖨️ Print Check
-              </Button>
+          <div className="bg-gray-50 px-4 py-2 rounded-full flex items-center gap-2 h-11 shadow-sm border border-gray-200">
+            <select
+              value={selectedYear}
+              onChange={(e) => {
+                setSelectedYear(e.target.value);
+                queryClient.invalidateQueries({ queryKey: ['staffPayroll', staffId] });
+              }}
+              className="bg-transparent text-gray-700 border-none focus:ring-0 focus:outline-none appearance-none pr-8 pl-2 py-1 h-8">
+              {Array.from({ length: 5 }, (_, i) => (
+                <option key={i} value={new Date().getFullYear() - i} className="text-gray-800">
+                  {new Date().getFullYear() - i}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        
+        <div className="flex gap-3">
+          <button
+            className={`px-5 py-2 rounded-full font-medium transition-all duration-200 h-11 shadow-sm ${
+              activeTab === 'details' 
+                ? 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow' 
+                : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
+            }`}
+            onClick={() => setActiveTab('details')}>
+            Current Period
+          </button>
+          <button
+            className={`px-5 py-2 rounded-full font-medium transition-all duration-200 h-11 shadow-sm ${
+              activeTab === 'history' 
+                ? 'bg-indigo-600 text-white hover:bg-indigo-700 hover:shadow' 
+                : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
+            }`}
+            onClick={() => setActiveTab('history')}>
+            History
+          </button>
+        </div>
+      </div>
+      
+      {activeTab === 'details' && (
+        <>
+          {currentRecord ? (
+            <>
+              {isAdmin && (
+                <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100 mb-6">
+                  <div className="flex flex-wrap gap-3">
+                    {currentRecord.status === 'PENDING' && (
+                      <>
+                        <Button
+                          onClick={() => handleEdit(currentRecord)}
+                          className="bg-white text-blue-600 border border-blue-600 hover:bg-blue-50 py-2 px-4 rounded-full transition-all duration-200 flex items-center gap-1.5 text-sm">
+                          <PencilIcon className="h-4 w-4" />
+                          Edit
+                        </Button>
+                        <Button
+                          onClick={() => handleDelete(currentRecord.id)}
+                          className="bg-white text-red-600 border border-red-600 hover:bg-red-50 py-2 px-4 rounded-full transition-all duration-200 flex items-center gap-1.5 text-sm">
+                          <TrashIcon className="h-4 w-4" />
+                          Delete
+                        </Button>
+                        <Button
+                          onClick={() => approveMutation.mutate(currentRecord.id)}
+                          className="bg-blue-600 text-white hover:bg-blue-700 py-2 px-4 rounded-full transition-all duration-200 flex items-center gap-1.5 text-sm">
+                          <CheckCircleIcon className="h-4 w-4" />
+                          Approve
+                        </Button>
+                      </>
+                    )}
+                    {currentRecord.status === 'APPROVED' && (
+                      <Button
+                        onClick={() => markAsPaidMutation.mutate(currentRecord.id)}
+                        className="bg-green-600 text-white hover:bg-green-700 py-2 px-4 rounded-full transition-all duration-200 flex items-center gap-1.5 text-sm">
+                        <BanknotesIcon className="h-4 w-4" />
+                        Mark as Paid
+                      </Button>
+                    )}
+                    {currentRecord.status === 'PAID' && (
+                      <Button
+                        onClick={handlePrintCheck}
+                        className="bg-purple-600 text-white hover:bg-purple-700 py-2 px-4 rounded-full transition-all duration-200 flex items-center gap-1.5 text-sm">
+                        <PrinterIcon className="h-4 w-4" />
+                        Print Check
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              )}
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-sm font-medium text-gray-500">Net Salary</h3>
+                    <CurrencyDollarIcon className="h-5 w-5 text-indigo-600" />
+                  </div>
+                  <p className="text-2xl font-bold text-indigo-600">
+                    {formatCurrency(currentRecord.netSalary)}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {format(new Date(parseInt(selectedYear), parseInt(selectedMonth) - 1), 'MMMM yyyy')}
+                  </p>
+                </div>
+                
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-sm font-medium text-gray-500">Status</h3>
+                    <CheckCircleIcon className="h-5 w-5 text-green-600" />
+                  </div>
+                  <p
+                    className={`text-2xl font-bold ${
+                      currentRecord.status === 'PAID' ? 'text-green-600' :
+                      currentRecord.status === 'APPROVED' ? 'text-blue-600' :
+                      'text-yellow-600'
+                    }`}>
+                    {currentRecord.status}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">Last updated: {formatDate(currentRecord.updatedAt || '')}</p>
+                </div>
+                
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-sm font-medium text-gray-500">Payment Date</h3>
+                    <CalendarIcon className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <p className="text-2xl font-bold text-gray-600">
+                    {currentRecord.paymentDate ? format(new Date(currentRecord.paymentDate), 'MMM d') : 'Pending'}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {currentRecord.paymentDate ? format(new Date(currentRecord.paymentDate), 'yyyy') : ''}
+                  </p>
+                </div>
+              </div>
+              
+              <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 mb-6">
+                <div className="bg-gray-50 px-6 py-4 border-b border-gray-100">
+                  <h2 className="text-lg font-medium text-gray-800">Salary Breakdown</h2>
+                </div>
+                <div className="overflow-hidden">
+                  <Table className="border-collapse">
+                    <TableHeader>
+                      <TableRow className="border-b border-gray-100">
+                        <TableHead className="border-0">Component</TableHead>
+                        <TableHead className="border-0">Amount</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow className="border-b border-gray-100">
+                        <TableCell className="font-medium border-0">Basic Salary</TableCell>
+                        <TableCell className="border-0">{formatCurrency(currentRecord.basicSalary)}</TableCell>
+                      </TableRow>
+                      <TableRow className="border-b border-gray-100">
+                        <TableCell className="font-medium text-green-700 border-0">Allowances</TableCell>
+                        <TableCell className="text-green-700 border-0">{formatCurrency(currentRecord.allowances)}</TableCell>
+                      </TableRow>
+                      <TableRow className="border-b border-gray-100">
+                        <TableCell className="font-medium text-red-700 border-0">Deductions</TableCell>
+                        <TableCell className="text-red-700 border-0">-{formatCurrency(currentRecord.deductions)}</TableCell>
+                      </TableRow>
+                      <TableRow className="bg-gray-50">
+                        <TableCell className="font-bold border-0">Net Salary</TableCell>
+                        <TableCell className="font-bold border-0">{formatCurrency(currentRecord.netSalary)}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="bg-white rounded-xl shadow-sm p-8 text-center border border-gray-100">
+              <DocumentIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-xl font-medium text-gray-900 mb-2">No Payroll Record Found</h3>
+              <p className="text-gray-500 mb-6">
+                There is no payroll record for {format(new Date(parseInt(selectedYear), parseInt(selectedMonth) - 1), 'MMMM yyyy')}
+              </p>
+              {isAdmin && (
+                <Button 
+                  onClick={() => {
+                    setSelectedRecord(null);
+                    setIsModalOpen(true);
+                  }}
+                  className="bg-indigo-600 text-white hover:bg-indigo-700 px-5 py-2 rounded-full transition-all duration-200 mx-auto flex items-center justify-center gap-1.5 w-auto">
+                  <PlusIcon className="h-5 w-5" />
+                  Create Payroll
+                </Button>
+              )}
             </div>
           )}
         </>
-      ) : (
-        <div className="text-center py-12">
-          <p className="text-gray-500">No payroll record found for the selected period.</p>
-          {isAdmin && (
-            <Button
-              onClick={() => {
-                setSelectedRecord(null);
-                setIsModalOpen(true);
-              }}
-              className="mt-4">
-              Create New Payroll Record
-            </Button>
-          )}
+      )}
+      
+      {activeTab === 'history' && (
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+          <div className="bg-gray-50 px-6 py-4 border-b border-gray-100">
+            <h2 className="text-lg font-medium text-gray-800">Payment History</h2>
+          </div>
+          <div className="overflow-x-auto">
+            <Table className="border-collapse">
+              <TableHeader>
+                <TableRow className="border-b border-gray-100">
+                  <TableHead className="bg-gray-50 border-0">Period</TableHead>
+                  <TableHead className="bg-gray-50 border-0">Basic Salary</TableHead>
+                  <TableHead className="bg-gray-50 border-0">Allowances</TableHead>
+                  <TableHead className="bg-gray-50 border-0">Deductions</TableHead>
+                  <TableHead className="bg-gray-50 border-0">Net Salary</TableHead>
+                  <TableHead className="bg-gray-50 border-0">Status</TableHead>
+                  <TableHead className="bg-gray-50 border-0">Payment Date</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {historyRecords.length > 0 ? (
+                  historyRecords.map((record) => (
+                    <TableRow key={record.id} className="hover:bg-gray-50 border-b border-gray-100">
+                      <TableCell className="border-0">
+                        {format(new Date(parseInt(record.year), parseInt(record.month) - 1), 'MMM yyyy')}
+                      </TableCell>
+                      <TableCell className="border-0">{formatCurrency(record.basicSalary)}</TableCell>
+                      <TableCell className="text-green-700 border-0">{formatCurrency(record.allowances)}</TableCell>
+                      <TableCell className="text-red-700 border-0">-{formatCurrency(record.deductions)}</TableCell>
+                      <TableCell className="font-medium border-0">{formatCurrency(record.netSalary)}</TableCell>
+                      <TableCell className="border-0">
+                        <span
+                          className={`px-2 py-1 inline-flex text-xs leading-5 font-medium rounded-full ${
+                            record.status === 'PAID' ? 'bg-green-100 text-green-800' :
+                            record.status === 'APPROVED' ? 'bg-blue-100 text-blue-800' :
+                            'bg-yellow-100 text-yellow-800'
+                          }`}>
+                          {record.status}
+                        </span>
+                      </TableCell>
+                      <TableCell className="border-0">
+                        {record.paymentDate ? 
+                          format(new Date(record.paymentDate), 'MMM d, yyyy') : 
+                          <span className="text-gray-400">-</span>}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={7} className="text-center py-8 text-gray-500 border-0">
+                      <DocumentIcon className="h-10 w-10 text-gray-300 mx-auto mb-2" />
+                      <p>No payroll history found</p>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </div>
       )}
+
       <Modal
         isOpen={isModalOpen}
         onClose={() => {
@@ -318,30 +470,42 @@ export const StaffPayrollDashboard = ({ staffId, onBack, isAdmin = false }) => {
             setIsModalOpen(false);
             setSelectedRecord(null);
             queryClient.invalidateQueries({ queryKey: ['staffPayroll', staffId] });
-          }} />
+            toast.success(selectedRecord ? 'Payroll record updated' : 'Payroll record created');
+          }}
+        />
       </Modal>
+
       <Modal
         isOpen={isConfirmModalOpen}
         onClose={() => setIsConfirmModalOpen(false)}
         title="Confirm Delete">
-        <div className="py-4">
-          <p className="text-gray-700 mb-4">Are you sure you want to delete this payroll record? This action cannot be undone.</p>
-          <div className="flex justify-end gap-4">
-            <Button onClick={() => setIsConfirmModalOpen(false)} variant="outline">
+        <div className="p-6">
+          <div className="flex items-center justify-center mb-4 text-red-500">
+            <TrashIcon className="h-12 w-12 text-red-500 mx-auto" />
+          </div>
+          <p className="text-center mb-6">
+            Are you sure you want to delete this payroll record?
+          </p>
+          <div className="flex justify-center gap-3">
+            <Button
+              onClick={() => setIsConfirmModalOpen(false)}
+              className="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 px-5 py-2 rounded-full">
               Cancel
             </Button>
-            <Button onClick={confirmDelete} className="bg-red-600 hover:bg-red-700">
+            <Button
+              onClick={confirmDelete}
+              className="bg-red-600 text-white hover:bg-red-700 px-5 py-2 rounded-full">
               Delete
             </Button>
           </div>
         </div>
       </Modal>
-      {currentRecord && (
-        <PayrollCheckModal
-          record={currentRecord}
-          isOpen={isPrintModalOpen}
-          onClose={() => setIsPrintModalOpen(false)} />
-      )}
+
+      <PayrollCheckModal
+        isOpen={isPrintModalOpen}
+        onClose={() => setIsPrintModalOpen(false)}
+        record={selectedRecord || currentRecord}
+      />
     </div>
   );
 }; 

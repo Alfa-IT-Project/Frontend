@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import styles from './pmCss.module.css'; // Importing the pmCss.module.css
+import styles from "./styles/pmCSS.module.css";
 
 function Read() {
   const [item, setItem] = useState(null);
@@ -27,21 +27,21 @@ function Read() {
   }, [id]);
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.formTitle}>Item Details</h2>
-      <Link to="/" className={styles.backBtn}>Back</Link>
+    <div className={styles.readContainer}>
+      <h2 className={styles.readTitle}>Item Details</h2>
+      <Link to="/home" className={styles.readBackButton}>Back</Link>
 
       {error ? (
-        <p className={styles.error}>{error}</p>
+        <p className={styles.readError}>{error}</p>
       ) : item ? (
-        <ul className={styles.listGroup}>
-          <li className={styles.listGroupItem}><span className={styles.label}>Item ID :</span> {item.item_id}</li>
-          <li className={styles.listGroupItem}><span className={styles.label}>Name :</span> {item.product_name}</li>
-          <li className={styles.listGroupItem}><span className={styles.label}>Category :</span> {item.category}</li>
-          <li className={styles.listGroupItem}><span className={styles.label}>Quantity :</span> {item.quantity}</li>
-          <li className={styles.listGroupItem}><span className={styles.label}>Price :</span> LKR {item.price}</li>
-          <li className={styles.listGroupItem}><span className={styles.label}>Supplier Name :</span> {item.supplier_name}</li>
-          <li className={styles.listGroupItem}><span className={styles.label}>Date Added :</span> {item.date_added}</li>
+        <ul className={styles.readListGroup}>
+          <li className={styles.readListItem}><span className={styles.readLabel}>Item ID :</span> {item.item_id}</li>
+          <li className={styles.readListItem}><span className={styles.readLabel}>Name :</span> {item.product_name}</li>
+          <li className={styles.readListItem}><span className={styles.readLabel}>Category :</span> {item.category}</li>
+          <li className={styles.readListItem}><span className={styles.readLabel}>Quantity :</span> {item.quantity}</li>
+          <li className={styles.readListItem}><span className={styles.readLabel}>Price :</span> LKR {item.price}</li>
+          <li className={styles.readListItem}><span className={styles.readLabel}>Supplier Name :</span> {item.supplier_name}</li>
+          <li className={styles.readListItem}><span className={styles.readLabel}>Date Added :</span> {item.date_added}</li>
         </ul>
       ) : (
         <p>Loading item details...</p>

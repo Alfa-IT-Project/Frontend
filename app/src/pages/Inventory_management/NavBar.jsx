@@ -1,21 +1,24 @@
-// import React from 'react';
-// import './NavBar.css'; // Import the CSS for NavBar
+import React from 'react';
+import styles from './styles/pmCSS.module.css';
+import { NavLink } from 'react-router-dom';
 
-// const NavBar = () => {
-//   return (
-//     <div className="dashboard-header">
-//       <div className="logo-section">
-//         <img src="apssaraLogo.png" alt="Apsara Logo" />
-//       </div>
-//       <nav className="navbar">
-//         <button>Dashboard</button>
-//         <button>Inventory List</button>
-//         <button>Reports</button>
-//         <button>My Profile</button>
-//         <button>Logout</button>
-//       </nav>
-//     </div>
-//   );
-// };
 
-// export default NavBar;
+const NavBar = () => {
+  return (
+    <div className={styles.navbarHeader}>
+      <div className={styles.navbarLogo}>
+        <img src="./apssaraLogo.png" alt="Apsara Logo" style={{ height: "40px" }} />
+      </div>
+      <nav className={styles.navbarNav}>
+        <NavLink to="/product-manager-dashboard" className={styles.navbarButton}>Dashboard</NavLink>
+        <NavLink to="/home" className={styles.navbarButton}>Inventory List</NavLink>
+        <NavLink to="/report" className={styles.navbarButton}>Reports</NavLink>
+        <NavLink to="/profile" className={styles.navbarButton}>My Profile</NavLink>
+        <NavLink to="/logout" className={styles.navbarButton}>Logout</NavLink>
+        
+      </nav>
+    </div>
+  );
+};
+
+export default NavBar;

@@ -11,11 +11,14 @@ import CustomerList from './pages/CRM/Manager_dashboard/customer_list.js';
 import PurchaseList from './pages/CRM/Manager_dashboard/purchase_list.js';
 import ContactList from './pages/CRM/Manager_dashboard/generate_rewards.js';
 
-import InventoryHome from './pages/Inventory_management/Home.jsx';
+import InventoryHome from './pages/Inventory_management/Dashboard.jsx';
+import InventoryList from './pages/Inventory_management/Home.jsx';
 import InventoryCreate from './pages/Inventory_management/Create.jsx';
 import InventoryEdit from './pages/Inventory_management/Edit.jsx';  
 import InventoryRead from './pages/Inventory_management/Read.jsx';
-
+import InventoryProfile from './pages/Inventory_management/pmProfile.jsx';
+import InventoryReport from './pages/Inventory_management/Report.jsx';
+import InventoryLogout from './pages/Inventory_management/Logout.jsx';
 import DeliveryDashboard from './pages/Delivery_Management/Dashoard.js';
 import AddDelivery from './pages/Delivery_Management/Add_Delivery.js';
 import UpdateDelivery from './pages/Delivery_Management/UpdateDelivery.js'
@@ -124,16 +127,32 @@ function App() {
           element={token && role === 'product_manager' ? (<InventoryHome />) : (<Navigate to="/login" />)}
         />
         <Route
+          path="/home"
+          element={token && role === 'product_manager' ? (<InventoryList />) : (<Navigate to="/login" />)}
+        />
+        <Route
+          path="/profile"
+          element={token && role === 'product_manager' ? (<InventoryProfile />) : (<Navigate to="/login" />)}
+        />
+        <Route
           path="/create"
           element={token && role === 'product_manager' ? (<InventoryCreate />) : (<Navigate to="/login" />)}
         />
         <Route
-          path="/edit"
+          path="/edit/:id"
           element={token && role === 'product_manager' ? (<InventoryEdit />) : (<Navigate to="/login" />)}
         />
         <Route
-          path="/read"
+          path="/read/:id"
           element={token && role === 'product_manager' ? (<InventoryRead />) : (<Navigate to="/login" />)}
+        />
+         <Route
+          path="/report"
+          element={token && role === 'product_manager' ? (<InventoryReport />) : (<Navigate to="/login" />)}
+        />
+         <Route
+          path="/logout"
+          element={token && role === 'product_manager' ? (<InventoryLogout />) : (<Navigate to="/login" />)}
         />
 
         {/*Supplier Management*/}
@@ -158,42 +177,44 @@ function App() {
           path="/sedit"
           element={token && role === 'supplier_manager' ? (<SupplierEdit />) : (<Navigate to="/login" />)}
         />
+
+        {/* Staff Management Routes */}
         <Route
-        path="/manager"
-        element={token && role === 'ADMIN' ? <DashboardLayout><ManagerDashboard /></DashboardLayout> : <Navigate to="/" />} />
-      <Route
-        path="/staff"
-        element={token && role === 'STAFF' ? <DashboardLayout><StaffDashboard /></DashboardLayout> : <Navigate to="/" />} />
-      <Route
-        path="/leaves"
-        element={token && (role === 'ADMIN' || role === 'STAFF') ? <DashboardLayout><Leaves /></DashboardLayout> : <Navigate to="/login" />} />
-      <Route
-        path="/payroll"
-        element={token && role === 'ADMIN' ? <DashboardLayout><AdminPayroll /></DashboardLayout> : <DashboardLayout><StaffPayroll /></DashboardLayout>} />
-      <Route
-        path="/performance"
-        element={token && (role === 'ADMIN' || role === 'STAFF')  ? <DashboardLayout><Performance /></DashboardLayout> : <Navigate to="/login" />} />
-      <Route
-        path="/scheduler"
-        element={token && role === 'ADMIN' ? <DashboardLayout><Scheduler /></DashboardLayout> : <Navigate to="/" />} />
-      <Route
-        path="/calendar"
-        element={token && role === 'STAFF' ? <DashboardLayout><StaffCalendar /></DashboardLayout> : <Navigate to="/" />} />
-      <Route
-        path="/attendance"
-        element={token && role === 'STAFF' ? <DashboardLayout><StaffAttendance /></DashboardLayout> : <Navigate to="/" />} />
-      <Route
-        path="/attendance-records"
-        element={token && role === 'ADMIN' ? <DashboardLayout><ManagerAttendance /></DashboardLayout> : <Navigate to="/" />} />
-      <Route
-        path="/profile"
-        element={token && (role === 'ADMIN' || role === 'STAFF') ? <DashboardLayout><Profile /></DashboardLayout> : <Navigate to="/login" />} />
-      <Route
-        path="/settings"
-        element={token && (role === 'ADMIN' || role === 'STAFF') ? <DashboardLayout><Settings /></DashboardLayout> : <Navigate to="/login" />} />
-      <Route
-        path="/user-management"
-        element={token && role === 'ADMIN' ? <DashboardLayout><UserManagement /></DashboardLayout> : <Navigate to="/" />} />
+          path="/manager"
+          element={token && role === 'ADMIN' ? <DashboardLayout><ManagerDashboard /></DashboardLayout> : <Navigate to="/manager" />} />
+        <Route
+          path="/staff"
+          element={token && role === 'STAFF' ? <DashboardLayout><StaffDashboard /></DashboardLayout> : <Navigate to="/staff" />} />
+        <Route
+          path="/leaves"
+          element={token && (role === 'ADMIN' || role === 'STAFF') ? <DashboardLayout><Leaves user={{ role }} /></DashboardLayout> : <Navigate to="/login" />} />
+        <Route
+          path="/payroll"
+          element={token && role === 'ADMIN' ? <DashboardLayout><AdminPayroll /></DashboardLayout> : <DashboardLayout><StaffPayroll /></DashboardLayout>} />
+        <Route
+          path="/performance"
+          element={token && (role === 'ADMIN' || role === 'STAFF')  ? <DashboardLayout><Performance /></DashboardLayout> : <Navigate to="/login" />} />
+        <Route
+          path="/scheduler"
+          element={token && role === 'ADMIN' ? <DashboardLayout><Scheduler isAdmin={true} /></DashboardLayout> : <Navigate to="/" />} />
+        <Route
+          path="/calendar"
+          element={token && role === 'STAFF' ? <DashboardLayout><StaffCalendar /></DashboardLayout> : <Navigate to="/" />} />
+        <Route
+          path="/attendance"
+          element={token && role === 'STAFF' ? <DashboardLayout><StaffAttendance /></DashboardLayout> : <Navigate to="/" />} />
+        <Route
+          path="/attendance-records"
+          element={token && role === 'ADMIN' ? <DashboardLayout><ManagerAttendance /></DashboardLayout> : <Navigate to="/" />} />
+        <Route
+          path="/profile"
+          element={token && (role === 'ADMIN' || role === 'STAFF') ? <DashboardLayout><Profile /></DashboardLayout> : <Navigate to="/login" />} />
+        <Route
+          path="/settings"
+          element={token && (role === 'ADMIN' || role === 'STAFF') ? <DashboardLayout><Settings /></DashboardLayout> : <Navigate to="/login" />} />
+        <Route
+          path="/user-management"
+          element={token && role === 'ADMIN' ? <DashboardLayout><UserManagement /></DashboardLayout> : <Navigate to="/" />} />
 
          {/* Redirect unknown paths to login */}
         <Route path="*" element={<Navigate to="/login" />} />

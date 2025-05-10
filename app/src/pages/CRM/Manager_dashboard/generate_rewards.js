@@ -13,7 +13,7 @@ function RewardListPage() {
   const [expireDate, setExpireDate] = useState('');
   const [editMode, setEditMode] = useState(false);
   const [editableReward, setEditableReward] = useState(null);
-
+  const [error, setError] = useState('');
   useEffect(() => {
     const fetchTiers = async () => {
       try {
@@ -127,7 +127,7 @@ function RewardListPage() {
     setNote('');
     setExpireDate('');
   };
-  
+
   return (
   <>
     <Navbar />
@@ -166,10 +166,10 @@ function RewardListPage() {
                 <td>{reward.notes || 'N/A'}</td>
                 <td>
                   <button onClick={() => handleDelete(reward.id)}>
-                    Delete Reward
+                    Delete 
                   </button>
                   <button onClick={() => handleUpdate(reward)}>
-                    Update Reward
+                    Update 
                   </button>
 
                 </td>
@@ -201,16 +201,37 @@ function RewardListPage() {
               </div>
                 <div className={style.formItem}>
                   <label>Offer</label>
-                  <input type="te" value={offer} onChange={(e) => setOffer(e.target.value)} />
+                  <input type="text" value={offer} onChange={(e) => setOffer(e.target.value)} />
                 </div>
                 <div className={style.formItem}>
                   <label>Reason</label>
                   <textarea value={note} onChange={(e) => setNote(e.target.value)} />
                 </div>
                 <div className={style.formItem}>
-                  <label>Expire Date</label>
-                  <input type="date" value={expireDate} onChange={(e) => setExpireDate(e.target.value)} />
+                  <div className={style.formItem}>
+              <label>Expire Date</label>
+              <input
+                type="date"
+                value={expireDate}
+                onChange={(e) => {
+                  const selected = new Date(e.target.value);
+                  const currentDate = new Date();
+                  currentDate.setHours(0, 0, 0, 0); // normalize time
+
+                  if (selected < currentDate) {
+                    setError('Please select a future date');
+                    setExpireDate('');
+                  } else {
+                    setError('');
+                    setExpireDate(e.target.value);
+                  }
+                }}
+              />
+              {error && <p className={style.error}>{error}</p>}
+              
+            </div>
                 </div>
+
                 
                 <button className={style.primaryButton} onClick={handleGenerateBulk}>Generate</button>
               </div>

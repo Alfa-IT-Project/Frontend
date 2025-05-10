@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
 
 // Add axios interceptor to include auth token
 axios.interceptors.request.use((config) => {

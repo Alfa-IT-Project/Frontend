@@ -1,8 +1,8 @@
-//updateDelivery
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-const API_URL = 'http://localhost:4000';
+import styles from '../../components/Delivery_management/Dashboard.module.css';
+
 function UpdateDelivery() {
     const [data, setData] = useState({
         description: "",
@@ -18,9 +18,8 @@ function UpdateDelivery() {
     const { trackingID } = useParams();
 
     useEffect(() => {
-        axios.get(`${API_URL}/get/${trackingID}`)
+        axios.get(`http://localhost:4000/get/${trackingID}`)
             .then(res => {
-                
                 const mappedData = {
                     description: res.data.Description,
                     clientName: res.data.Client_Name,
@@ -38,28 +37,27 @@ function UpdateDelivery() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.put(`${API_URL}/update/${trackingID}`, data)
+        axios.put(`http://localhost:4000/update/${trackingID}`, data)
             .then(() => navigate("/delivery-manager-dashboard"))
             .catch(err => {
                 console.error("Error updating:", err);
-                
                 alert("Failed to update delivery item");
             });
     };
 
     return (
-        <div className="d-flex vh-100 bg-primary justify-content-center align-items-center">
-            <div className="w-50 bg-white rounded p-3">
+        <div className={styles.dupdateDeliveryContainer}>
+            <div className={styles.dformWrapper}>
                 <form onSubmit={handleSubmit}>
                     <h1>Update Delivery Details</h1>
                     {Object.keys(data).map((key) => (
-                        <div className="mb-2" key={key}>
+                        <div className={styles.dformGroup} key={key}>
                             <label htmlFor={key} className="form-label">
                                 {key.replace(/([A-Z])/g, ' $1').trim()}
                             </label>
                             <input
                                 type={key.includes("Date") ? "date" : "text"}
-                                className="form-control"
+                                className={styles.dformControl}
                                 id={key}
                                 name={key}
                                 value={data[key] || ""}
@@ -68,7 +66,7 @@ function UpdateDelivery() {
                             />
                         </div>
                     ))}
-                    <button type="submit" className="btn btn-primary">Update</button>
+                    <button type="submit" className={styles.dsubmitButton}>Update</button>
                 </form>
             </div>
         </div>

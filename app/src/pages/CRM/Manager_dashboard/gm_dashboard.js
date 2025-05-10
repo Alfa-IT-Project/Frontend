@@ -9,13 +9,11 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 const API_URL = 'http://localhost:4000';
 
 function GenerateReport() {
-  
-  
   // State to manage form visibility
   const [showForm, setShowForm] = useState(false);
+  const [error, setError] = useState('');
 
   // State variables for form inputs
-  
   const [reportType, setReportType] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -23,10 +21,43 @@ function GenerateReport() {
   // State to store purchase data for the chart
   const [purchaseData, setPurchaseData] = useState([]);
 
+  // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split('T')[0];
+
+  // Validation function for dates
+  const validateDates = (start, end) => {
+    const startDateObj = new Date(start);
+    const endDateObj = new Date(end);
+    const todayObj = new Date(today);
+
+    // Reset error state
+    setError('');
+
+    // Check if start date is before today
+    if (startDateObj >= todayObj) {
+      setError('Start date must be before today');
+      return false;
+    }
+
+    // Check if end date is not in the future
+    if (endDateObj > todayObj) {
+      setError('End date cannot be in the future');
+      return false;
+    }
+
+    // Check if start date is before end date
+    if (startDateObj > endDateObj) {
+      setError('Start date must be before end date');
+      return false;
+    }
+
+    return true;
+  };
 
   // Handle report generation button click
   const onClick = () => {
-    setShowForm(true); // Show the form when button is clicked
+    setShowForm(true);
+    setError(''); // Reset error when showing form
   };
   
   const fetchPurchaseData = useCallback(async () => {
@@ -76,103 +107,135 @@ function GenerateReport() {
 
   // This function will handle the form submission
   const handleGenerateReport = async (credentials) => {
-    const token = localStorage.getItem('token'); // Retrieve token from local storage or any other secure place
+    // Validate dates before proceeding
+    if (!validateDates(credentials.start_date, credentials.end_date)) {
+      return;
+    }
+
+    const token = localStorage.getItem('token');
     try {
-      const response = await axios.post(`${API_URL}/purchases/`, credentials, {
+      const response = await axios.post(`${API_URL}/purchases/download`, credentials, {
         headers: {
-          Authorization: `Bearer ${token}` // Include token in request
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
-        responseType: 'blob', // Assuming the report is a downloadable file
+        responseType: 'blob'
       });
 
-      // Create a link to download the file
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      // Create a blob from the PDF Stream
+      const file = new Blob([response.data], { type: 'application/pdf' });
+      
+      // Create a URL for the blob
+      const fileURL = window.URL.createObjectURL(file);
+      
+      // Create a link element
       const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'sales_report.pdf'); // Set the filename for the downloaded report
+      link.href = fileURL;
+      link.download = `sales_report_${credentials.start_date}_to_${credentials.end_date}.pdf`;
+      
+      // Append to html link element page
       document.body.appendChild(link);
+      
+      // Start download
       link.click();
-      link.remove();
+      
+      // Clean up and remove the link
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(fileURL);
     } catch (error) {
       console.error('Error generating report:', error);
+      alert('Error generating report. Please try again.');
     }
   };
 
   return (
-    <div className={styles.contain}>
-    <Navbar/>
+    <>
+      <Navbar/>
+
 
       {/* Content Section */}
       <div className={styles.content}>
-        <h2>Generate Sales Report</h2>
+        <div className={styles.dashboardGrid}>
+          {/* Report Generation Card */}
+          <div className={styles.dashboardCard}>
+            <h2>Generate Sales Report</h2>
+            <div className={styles.buttonContainer}>
+              <button onClick={onClick} className={styles.tableButton}>
+                Generate Report
+              </button>
+            </div>
 
-        {/* Button to trigger form display */}
-        <div className={styles.buttonContainer}>
-          <button onClick={onClick} className={styles.tableButton}>
-            Generate Report
-          </button>
+            {showForm && (
+              <div className={styles.formContainer}>
+                <h3>Report Form</h3>
+                {error && <div className={styles.errorMessage}>{error}</div>}
+                <form onSubmit={(e) => {
+                  e.preventDefault();
+                  handleGenerateReport({
+                    report_type: reportType,
+                    start_date: startDate,
+                    end_date: endDate
+                  });
+                }} className={styles.reportForm}>
+                  
+                  <div className={styles.formGroup}>
+                    <label htmlFor="report_type">Report Type:</label>
+                    <select
+                      id="report_type"
+                      value={reportType}
+                      onChange={(e) => setReportType(e.target.value)}
+                      required
+                    >
+                      <option value="">Select Report Type</option>
+                      <option value="sales">Sales Report</option>
+                      <option value="inventory">Inventory Report</option>
+                    </select>
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="start_date">Start Date:</label>
+                    <input
+                      type="date"
+                      id="start_date"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      max={today}
+                      required
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="end_date">End Date:</label>
+                    <input
+                      type="date"
+                      id="end_date"
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                      max={today}
+                      required
+                    />
+                  </div>
+                  <button type="submit" className={styles.submitButton}>Generate Report</button>
+                </form>
+              </div>
+            )}
+          </div>
+
+          {/* Purchases Data Card */}
+          <div className={styles.dashboardCard}>
+            <h2>Purchase Analytics</h2>
+            {purchaseData.length > 0 ? (
+              <div className={styles.chartContainer}>
+                <Bar data={chartData} options={chartOptions} />
+              </div>
+            ) : (
+              <div className={styles.noDataMessage}>
+                No purchase data available for the current month
+              </div>
+            )}
+          </div>
         </div>
-
-        {/* Conditional rendering to show form */}
-        {showForm && (
-          <div>
-            <h3>Report Form</h3>
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              handleGenerateReport({
-                report_type: reportType,
-                start_date: startDate,
-                end_date: endDate
-              });
-            }} className={styles.reportForm}>
-              
-              <div className={styles.formGroup}>
-                <label htmlFor="report_type">Report Type:</label>
-                <select
-                  id="report_type"
-                  value={reportType}
-                  onChange={(e) => setReportType(e.target.value)}
-                  required
-                >
-                  <option value="">Select Report Type</option>
-                  <option value="sales">Sales Report</option>
-                  <option value="inventory">Inventory Report</option>
-                </select>
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="start_date">Start Date:</label>
-                <input
-                  type="date"
-                  id="start_date"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  required
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="end_date">End Date:</label>
-                <input
-                  type="date"
-                  id="end_date"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  required
-                />
-              </div>
-              <button type="submit" className={styles.submitButton}>Generate Report</button>
-            </form>
-          </div>
-        )}
-
-        {/* Display the bar chart if data is available */}
-        {purchaseData.length > 0 && (
-          <div className={styles.chartContainer}>
-            <h3>Purchase Data</h3>
-            <Bar data={chartData} options={chartOptions} />
-          </div>
-        )}
       </div>
-    </div>
+    
+    </>
   );
 }
 

@@ -16,8 +16,25 @@ export function useApiQuery(key, fetcher, options) {
         return response;
       } catch (error) {
         console.error(`Query error for key ${JSON.stringify(key)}:`, error);
+        
+        // Handle authentication errors
+        if (error instanceof AxiosError) {
+          if (error.response?.status === 401) {
+            // Optionally refresh token or redirect to login
+            console.error('Authentication error, need to login again');
+            // Could redirect here: window.location.href = '/login';
+          }
+        }
+        
         throw error;
       }
+    },
+    retry: (failureCount, error) => {
+      // Don't retry on authentication errors
+      if (error instanceof AxiosError && error.response?.status === 401) {
+        return false;
+      }
+      return failureCount < 2; // retry twice for other errors
     },
     ...options,
   });
@@ -36,6 +53,12 @@ export function useApiMutation(mutationFn, options) {
         console.error('API Error:', error);
         if (error instanceof AxiosError && error.response) {
           console.error('Server response:', error.response.data);
+          
+          // Handle authentication errors
+          if (error.response.status === 401) {
+            console.error('Authentication error in mutation, need to login again');
+            // Could redirect here: window.location.href = '/login';
+          }
         }
         throw error;
       }

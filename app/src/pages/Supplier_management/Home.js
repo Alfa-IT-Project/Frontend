@@ -22,7 +22,7 @@ function Home() {
   }, []);
 
   const handleClick1 = () => {
-    navigate('/supplier');
+    navigate('/');
   };
 
   const handleClick2 = () => {
@@ -88,6 +88,7 @@ function Home() {
           <button className={styles.navButton}>Home</button>
           <button className={styles.navButton} onClick={handleClick3}>Supplier</button>
           <button className={styles.navButton} onClick={handleClick2}>Order Product</button>
+          <button className={styles.logOutButton} onClick={handleClick1}>Logout</button>
         </nav>
       </div>
 
@@ -138,35 +139,35 @@ function Home() {
         onChange={() => updateStatus(order.id, 'pending')}
       /> Pending 
     </label>
-    <label>
-      <input
-        type="radio"
-        name={`status-${order.id}`}
-        value="confirmed"
-        checked={order.deliveryStatus === 'confirmed'}
-        onChange={() => updateStatus(order.id, 'confirmed')}
-      /> Confirmed
-    </label>
-    <label>
-      <input
-        type="radio"
-        name={`status-${order.id}`}
-        value="delivering"
-        checked={order.deliveryStatus === 'delivering'}
-        onChange={() => updateStatus(order.id, 'delivering')}
-      /> Delivering
-    </label>
-    <label>
-      <input
-        type="radio"
-        name={`status-${order.id}`}
-        value="received"
-        checked={order.deliveryStatus === 'received'}
-        onChange={() => updateStatus(order.id, 'received')}
-      /> Received
-    </label>
-  </div>
-</td>
+                <label>
+                  <input
+                    type="radio"
+                    name={`status-${order.id}`}
+                    value="confirmed"
+                    checked={order.deliveryStatus === 'confirmed'}
+                    onChange={() => updateStatus(order.id, 'confirmed')}
+                  /> Confirmed
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name={`status-${order.id}`}
+                    value="delivering"
+                    checked={order.deliveryStatus === 'delivering'}
+                    onChange={() => updateStatus(order.id, 'delivering')}
+                  /> Delivering
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name={`status-${order.id}`}
+                    value="received"
+                    checked={order.deliveryStatus === 'received'}
+                    onChange={() => updateStatus(order.id, 'received')}
+                  /> Received
+                </label>
+              </div>
+            </td>
 
                   <td>
                     <button 

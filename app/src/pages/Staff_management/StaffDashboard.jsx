@@ -69,15 +69,15 @@ const StaffDashboard = () => {
     <div className="p-6">
       {/* Enhanced Welcome Section */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
           {greeting}, {userName}
         </h1>
-        <p className="text-lg text-gray-600 mt-1">
+        <p className="text-base md:text-lg text-gray-600 mt-1">
           {format(new Date(), 'EEEE, MMMM do, yyyy')}
         </p>
       </div>
       {/* Quick Actions */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
         <Link
           to="/attendance"
           className="flex flex-col items-center p-4 rounded-lg bg-white shadow-sm hover:shadow-md transition-all">
@@ -159,13 +159,12 @@ const StaffDashboard = () => {
         </Link>
       </div>
       {/* Main Dashboard Grid */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Column */}
         <div className="space-y-6">
           {/* Leave Balance Widget */}
-          <div
-            className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md">
-            <div className="px-6 py-5">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md">
+            <div className="px-4 md:px-6 py-4 md:py-5">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-800">Leave Balance</h3>
                 <svg
@@ -229,9 +228,8 @@ const StaffDashboard = () => {
           </div>
 
           {/* Attendance Status Widget */}
-          <div
-            className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md">
-            <div className="px-6 py-5">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all hover:shadow-md">
+            <div className="px-4 md:px-6 py-4 md:py-5">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-800">Today's Attendance</h3>
                 <svg

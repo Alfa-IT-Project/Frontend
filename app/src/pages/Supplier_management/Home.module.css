@@ -53,6 +53,25 @@
     color: rgb(18, 19, 18);
 }
 
+.logOutButton{
+    background-color: rgba(2, 172, 2, 0);
+    color: rgb(255, 170, 0);
+    padding: 10px 20px;
+    border: 1px solid rgb(255, 170, 0);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: large;
+    font-family: 'Lucida Sans', sans-serif;
+    font-weight: bold;
+
+}
+
+.logOutButton:hover {
+    background-color: rgb(80, 80, 80);
+    color: rgb(255, 170, 0);
+}
+
 /* Content Section Styling */
 .content {
     max-width: 1200px; 
@@ -137,5 +156,3 @@
     gap: 6px; /* space between radio button and label text */
     font-size: 14px;
   }
-  
-  

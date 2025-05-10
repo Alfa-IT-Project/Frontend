@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import styles from './pmCss.module.css'; // Import the updated CSS module
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import styles from './styles/pmCSS.module.css';
 
 const Create = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     product_name: '',
     category: '',
@@ -12,6 +15,8 @@ const Create = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const validate = () => {
     const newErrors = {};
@@ -48,41 +53,58 @@ const Create = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      alert('Product saved successfully!');
-      console.log(formData);
-      // Submit to backend or reset form here
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const response = await axios.post('http://localhost:4000/add_item', formData);
+        
+        if (response.data) {
+          alert('Product saved successfully!');
+          navigate('/home'); // Navigate back to home page after successful creation
+        }
+      } catch (err) {
+        setError(err.response?.data?.message || 'Failed to create product');
+        alert('Failed to create product. Please try again.');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
+  if (error) {
+    return <div className={styles.createError}>{error}</div>;
+  }
+
   return (
-    <div className={styles.mainContainer}>
-      <div className={styles.formCard}>
-        <h3 className={styles.formTitle}>Add Product</h3>
-        <div className={styles.homeButton}>
-          <a href="/" className={styles.btnSuccess}>Home</a>
+    <div className={styles.createMainContainer}>
+      <div className={styles.createFormCard}>
+        <h3 className={styles.createFormTitle}>Add Product</h3>
+        <div className={styles.createHomeButton}>
+          <a href="/" className={styles.createButtonSuccess}>Home</a>
         </div>
         <form onSubmit={handleSubmit}>
-          <div className={styles.formGroup}>
-            <label>Product Name</label>
+          <div className={styles.createFormGroup}>
+            <label className={styles.createFormLabel}>Product Name</label>
             <input
               type="text"
               name="product_name"
-              className={styles.formControl}
+              className={styles.createFormControl}
               value={formData.product_name}
               onChange={handleChange}
             />
-            {errors.product_name && <small className={styles.textDanger}>{errors.product_name}</small>}
+            {errors.product_name && <small className={styles.createTextDanger}>{errors.product_name}</small>}
           </div>
 
-          <div className={styles.formGroup}>
-            <label>Category</label>
-            <div className={styles.customSelectWrapper}>
+          <div className={styles.createFormGroup}>
+            <label className={styles.createFormLabel}>Category</label>
+            <div className={styles.createSelectWrapper}>
               <select
                 name="category"
-                className={styles.formControl}
+                className={styles.createFormControl}
                 value={formData.category}
                 onChange={handleChange}
               >
@@ -95,60 +117,66 @@ const Create = () => {
                 <option value="Other">Other</option>
               </select>
             </div>
-            {errors.category && <small className={styles.textDanger}>{errors.category}</small>}
+            {errors.category && <small className={styles.createTextDanger}>{errors.category}</small>}
           </div>
 
-          <div className={styles.formGroup}>
-            <label>Quantity</label>
+          <div className={styles.createFormGroup}>
+            <label className={styles.createFormLabel}>Quantity</label>
             <input
               type="number"
               name="quantity"
-              className={styles.formControl}
+              className={styles.createFormControl}
               value={formData.quantity}
               onChange={handleChange}
             />
-            {errors.quantity && <small className={styles.textDanger}>{errors.quantity}</small>}
+            {errors.quantity && <small className={styles.createTextDanger}>{errors.quantity}</small>}
           </div>
 
-          <div className={styles.formGroup}>
-            <label>Price</label>
+          <div className={styles.createFormGroup}>
+            <label className={styles.createFormLabel}>Price</label>
             <input
               type="number"
               name="price"
               step="0.01"
-              className={styles.formControl}
+              className={styles.createFormControl}
               value={formData.price}
               onChange={handleChange}
             />
-            {errors.price && <small className={styles.textDanger}>{errors.price}</small>}
+            {errors.price && <small className={styles.createTextDanger}>{errors.price}</small>}
           </div>
 
-          <div className={styles.formGroup}>
-            <label>Supplier Name</label>
+          <div className={styles.createFormGroup}>
+            <label className={styles.createFormLabel}>Supplier Name</label>
             <input
               type="text"
               name="supplier_name"
-              className={styles.formControl}
+              className={styles.createFormControl}
               value={formData.supplier_name}
               onChange={handleChange}
             />
-            {errors.supplier_name && <small className={styles.textDanger}>{errors.supplier_name}</small>}
+            {errors.supplier_name && <small className={styles.createTextDanger}>{errors.supplier_name}</small>}
           </div>
 
-          <div className={styles.formGroup}>
-            <label>Date</label>
+          <div className={styles.createFormGroup}>
+            <label className={styles.createFormLabel}>Date</label>
             <input
               type="date"
               name="date_added"
-              className={styles.formControl}
+              className={styles.createFormControl}
               value={formData.date_added}
               onChange={handleChange}
             />
-            {errors.date_added && <small className={styles.textDanger}>{errors.date_added}</small>}
+            {errors.date_added && <small className={styles.createTextDanger}>{errors.date_added}</small>}
           </div>
 
-          <div className={styles.formGroup}>
-            <button type="submit" className={`${styles.btnSuccess} ${styles.fullWidth}`}>Save</button>
+          <div className={styles.createFormGroup}>
+            <button 
+              type="submit" 
+              className={`${styles.createButtonSuccess} ${styles.createFullWidth}`}
+              disabled={loading}
+            >
+              {loading ? 'Saving...' : 'Save'}
+            </button>
           </div>
         </form>
       </div>

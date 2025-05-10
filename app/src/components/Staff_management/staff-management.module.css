@@ -1,0 +1,456 @@
+/* Staff Management Module Styles */
+.staff-management-module {
+  /* Reset styles that might be leaking from other components */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #f0cc00;
+  background-color: #1a1a1a;
+  line-height: 1.5;
+  max-width: 100%;
+}
+
+/* Common container styles */
+.container {
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  background-color: #222222;
+  margin-bottom: 1.5rem;
+  border: 1px solid #d4af37;
+}
+
+/* Page section headers */
+.section-header {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #d4af37;
+  color: #f0cc00;
+}
+
+/* Table styles */
+.staff-management-module table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1rem 0;
+}
+
+.staff-management-module th,
+.staff-management-module td {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border: 1px solid #444;
+}
+
+.staff-management-module th {
+  background-color: #1a1a1a;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: #f0cc00;
+}
+
+.staff-management-module tbody tr:hover {
+  background-color: #2c2c2c;
+}
+
+/* Form styles */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #f0cc00;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #444;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+.form-error {
+  color: #ff6b6b;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+/* Button styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: #d4af37;
+  color: #121212;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #c4a030;
+}
+
+.btn-secondary {
+  background-color: #333;
+  color: #f0cc00;
+  border: 1px solid #d4af37;
+}
+
+.btn-secondary:hover {
+  background-color: #3a3a3a;
+}
+
+.btn-danger {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #e06060;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid #d4af37;
+  color: #f0cc00;
+}
+
+.btn-outline:hover {
+  background-color: rgba(212, 175, 55, 0.1);
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-pending {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.status-approved {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-rejected {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.status-paid {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+/* Grid layouts */
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card styles for performance reports, employee profiles, etc. */
+.card {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid #444;
+  background-color: #222222;
+}
+
+.card-header {
+  padding: 1rem;
+  background-color: #1a1a1a;
+  border-bottom: 1px solid #444;
+  font-weight: 600;
+  color: #f0cc00;
+}
+
+.card-body {
+  padding: 1rem;
+  color: #f0f0f0;
+}
+
+.card-footer {
+  padding: 1rem;
+  background-color: #1a1a1a;
+  border-top: 1px solid #444;
+  color: #f0f0f0;
+}
+
+/* Summary boxes for payroll, etc. */
+.summary-box {
+  background-color: #2a2a2a;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 1px solid #444;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  color: #f0f0f0;
+}
+
+.summary-row:not(:last-child) {
+  border-bottom: 1px solid #444;
+}
+
+.summary-total {
+  font-weight: 600;
+  border-top: 1px solid #444;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  color: #f0cc00;
+}
+
+/* Calendar specific styles */
+.calendar-container {
+  border: 1px solid #444;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background-color: #222222;
+}
+
+.calendar-header {
+  background-color: #1a1a1a;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #f0cc00;
+  border-bottom: 1px solid #444;
+}
+
+.calendar-day {
+  min-height: 80px;
+  border: 1px solid #333;
+  padding: 0.5rem;
+  background-color: #2a2a2a;
+}
+
+.calendar-day-header {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #f0cc00;
+}
+
+.calendar-event {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: rgba(212, 175, 55, 0.2);
+  color: #f0f0f0;
+  border: 1px solid #d4af37;
+}
+
+/* Schedule styles */
+.schedule-slot {
+  padding: 0.5rem;
+  margin: 0.25rem 0;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  background-color: rgba(212, 175, 55, 0.15);
+  color: #f0f0f0;
+  border-left: 3px solid #d4af37;
+}
+
+/* PDF Document styles */
+.pdf-container {
+  margin: 1rem 0;
+}
+
+.pdf-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #d4af37;
+  color: #121212;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.pdf-link:hover {
+  background-color: #c4a030;
+}
+
+/* Override any conflicting styles */
+.staff-management-module * {
+  box-sizing: border-box;
+}
+
+/* Override specific style conflicts if needed */
+.staff-management-module input,
+.staff-management-module select,
+.staff-management-module button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Utility classes */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.p-2 {
+  padding: 0.5rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-gray-600 {
+  color: #e0e0e0;
+}
+
+.text-gray-900 {
+  color: #f0f0f0;
+}
+
+.rounded {
+  border-radius: 0.25rem;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.border {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #444;
+}
+
+.border-t {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: #444;
+}
+
+.pt-2 {
+  padding-top: 0.5rem;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+} 

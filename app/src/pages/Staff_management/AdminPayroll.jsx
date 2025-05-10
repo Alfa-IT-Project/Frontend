@@ -16,7 +16,11 @@ const AdminPayroll = () => {
   return (
     <div>
       {selectedStaffId ? (
-        <StaffPayrollDashboard staffId={selectedStaffId} onBack={handleBack} />
+        <StaffPayrollDashboard 
+          staffId={selectedStaffId} 
+          onBack={handleBack} 
+          isAdmin={true} 
+        />
       ) : (
         <StaffSelection onSelectStaff={handleSelectStaff} />
       )}

@@ -2,8 +2,8 @@ import axios from 'axios';
 
 // For Vite, use import.meta.env
 const API_URL = typeof import.meta.env !== 'undefined'
-  ? import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
-  : 'http://localhost:3001/api';
+  ? import.meta.env.VITE_API_URL || 'http://localhost:4000'
+  : 'http://localhost:4000';
 
 console.log('API URL:', API_URL);
 
@@ -17,12 +17,14 @@ export const apiClient = axios.create({
 // Add request interceptor to include auth token
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
+  console.log('Token from localStorage:', token ? 'Present' : 'Not found');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   console.log(
     `Request: ${config.method?.toUpperCase()} ${config.url}`,
-    config.data || config.params
+    config.data || config.params,
+    'Headers:', config.headers
   );
   return config;
 });
@@ -43,46 +45,76 @@ apiClient.interceptors.response.use((response) => {
 });
 
 export const auth = {
+  validateUser: (username) =>
+    apiClient.post('/api/auth/validate', { username })
+      .then(response => {
+        console.log('User validation successful:', response.data);
+        return response;
+      })
+      .catch(error => {
+        console.error('User validation failed:', error.response?.data || error.message);
+        throw error;
+      }),
   login: (credentials) =>
-    apiClient.post('/auth/login', credentials),
+    apiClient.post('/api/auth/login', credentials)
+      .then(response => {
+        console.log('Login successful:', response.data);
+        return response;
+      })
+      .catch(error => {
+        console.error('Login failed:', error.response?.data || error.message);
+        throw error;
+      }),
   register: (userData) =>
-    apiClient.post('/auth/register', userData),
+    apiClient.post('/api/auth/register', userData),
 };
 
 export const performance = {
-  getReviews: () => apiClient.get('/performance/reviews'),
-  getReviewById: (id) => apiClient.get(`/performance/reviews/${id}`),
+  getReviews: () => apiClient.get('/api/performance/reviews'),
+  getReviewById: (id) => apiClient.get(`/api/performance/reviews/${id}`),
   createReview: (reviewData) =>
-    apiClient.post('/performance/reviews', reviewData),
+    apiClient.post('/api/performance/reviews', reviewData),
 };
 
 export const leaves = {
-  getAll: () => apiClient.get('/leaves'),
-  getRequests: () => apiClient.get('/leaves'),
-  getRequestById: (id) => apiClient.get(`/leaves/${id}`),
+  getAll: () => apiClient.get('/api/leaves'),
+  getRequests: async () => {
+    try {
+      console.log('Attempting to fetch leave requests...');
+      const response = await apiClient.get('/api/leaves');
+      console.log('Leave requests fetched successfully:', response.data);
+      return response;
+    } catch (error) {
+      console.error('Error fetching leave requests:', error);
+      console.error('Error response data:', error.response?.data);
+      console.error('Error response status:', error.response?.status);
+      throw error;
+    }
+  },
+  getRequestById: (id) => apiClient.get(`/api/leaves/${id}`),
   create: (requestData) =>
-    apiClient.post('/leaves', requestData),
+    apiClient.post('/api/leaves', requestData),
   updateRequest: (id, status) =>
-    apiClient.put(`/leaves/${id}`, { status }),
-  getBalance: () => apiClient.get('/leaves/balance'),
-  cancel: (id) => apiClient.put(`/leaves/${id}/cancel`),
+    apiClient.put(`/api/leaves/${id}`, { status }),
+  getBalance: () => apiClient.get('/api/leaves/balance'),
+  cancel: (id) => apiClient.put(`/api/leaves/${id}/cancel`),
   updateStatus: (id, status) =>
-    apiClient.put(`/leaves/${id}`, { status }),
+    apiClient.put(`/api/leaves/${id}`, { status }),
 };
 
 export const payroll = {
-  getAll: () => apiClient.get('/payroll'),
-  getById: (id) => apiClient.get(`/payroll/${id}`),
-  getStaffPayroll: (userId) => apiClient.get(`/payroll/staff/${userId}`),
+  getAll: () => apiClient.get('/api/payroll'),
+  getById: (id) => apiClient.get(`/api/payroll/${id}`),
+  getStaffPayroll: (userId) => apiClient.get(`/api/payroll/staff/${userId}`),
   create: (data) =>
-    apiClient.post('/payroll', data),
+    apiClient.post('/api/payroll', data),
   update: (id, data) =>
-    apiClient.put(`/payroll/${id}`, data),
-  approve: (id) => apiClient.post(`/payroll/${id}/approve`),
-  markAsPaid: (id) => apiClient.post(`/payroll/${id}/paid`),
+    apiClient.put(`/api/payroll/${id}`, data),
+  approve: (id) => apiClient.post(`/api/payroll/${id}/approve`),
+  markAsPaid: (id) => apiClient.post(`/api/payroll/${id}/paid`),
   delete: (id) => {
     console.log(`Deleting payroll with ID: ${id}`);
-    return apiClient.delete(`/payroll/${id}`)
+    return apiClient.delete(`/api/payroll/${id}`)
       .catch(error => {
         if (error.response?.status === 404) {
           // If the record is not found, consider it already deleted
@@ -96,29 +128,29 @@ export const payroll = {
 
 export const schedules = {
   getAll: (params) =>
-    apiClient.get('/schedules', { params }),
-  getByUserId: (userId) => apiClient.get('/schedules', { params: { userId } }),
+    apiClient.get('/api/schedules', { params }),
+  getByUserId: (userId) => apiClient.get('/api/schedules', { params: { userId } }),
   create: (scheduleData) =>
-    apiClient.post('/schedules', scheduleData),
+    apiClient.post('/api/schedules', scheduleData),
   update: (id, scheduleData) =>
-    apiClient.patch(`/schedules/${id}`, scheduleData),
-  delete: (id) => apiClient.delete(`/schedules/${id}`),
+    apiClient.patch(`/api/schedules/${id}`, scheduleData),
+  delete: (id) => apiClient.delete(`/api/schedules/${id}`),
   createBulk: (data) =>
-    apiClient.post('/schedules/bulk', data),
+    apiClient.post('/api/schedules/bulk', data),
   getStaffAvailability: (params) =>
-    apiClient.get('/schedules/availability', { params }),
+    apiClient.get('/api/schedules/availability', { params }),
   requestSwap: (data) =>
-    apiClient.post('/schedules/swap', data),
+    apiClient.post('/api/schedules/swap', data),
   updateSwapStatus: (id, status) =>
-    apiClient.patch(`/schedules/swap/${id}`, { status })
+    apiClient.patch(`/api/schedules/swap/${id}`, { status })
 };
 
 export const attendance = {
-  getAll: () => apiClient.get('/attendance').then(response => response.data),
+  getAll: () => apiClient.get('/api/attendance').then(response => response.data),
   getRecords: async (params) => {
     try {
       console.log('Fetching attendance records with params:', params);
-      const response = await apiClient.get('/attendance/records', { params });
+      const response = await apiClient.get('/api/attendance/records', { params });
       console.log('Attendance records response:', response.data);
       return response.data;
     } catch (error) {
@@ -126,13 +158,13 @@ export const attendance = {
       throw error;
     }
   },
-  getSummary: () => apiClient.get('/attendance/summary').then(response => response.data),
-  getPendingOTPs: () => apiClient.get('/attendance/pending-otps'),
+  getSummary: () => apiClient.get('/api/attendance/summary').then(response => response.data),
+  getPendingOTPs: () => apiClient.get('/api/attendance/pending-otps'),
   clockIn: async (data) => {
     console.log('ClockIn request data:', data);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/attendance/clock-in`, {
+      const response = await fetch(`${API_URL}/api/attendance/clock-in`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -166,7 +198,7 @@ export const attendance = {
     console.log('ClockOut request data:', data);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/attendance/clock-out`, {
+      const response = await fetch(`${API_URL}/api/attendance/clock-out`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -202,7 +234,7 @@ export const attendance = {
   },
   verifyClockIn: (data) => {
     console.log('Verifying clock in with data:', data);
-    return apiClient.post('/attendance/verify-clock-in', { userId: data.userId, otp: data.otp })
+    return apiClient.post('/api/attendance/verify-clock-in', { userId: data.userId, otp: data.otp })
       .then(response => {
         console.log('Verify clock in response:', response.data);
 
@@ -224,7 +256,7 @@ export const attendance = {
   },
   verifyClockOut: (data) => {
     console.log('Calling verifyClockOut with data:', data);
-    return apiClient.post('/attendance/verify-clock-out', { userId: data.userId, otp: data.otp })
+    return apiClient.post('/api/attendance/verify-clock-out', { userId: data.userId, otp: data.otp })
       .then(response => {
         console.log('Verify clock out response:', response.data);
 
@@ -247,10 +279,29 @@ export const attendance = {
 };
 
 export const users = {
-  getAll: () => apiClient.get('/users').then(response => response.data.data),
-  getById: (id) => apiClient.get(`/users/${id}`).then(response => response.data.data),
-  create: (userData) => apiClient.post('/users', userData).then(response => response.data.data),
-  update: (id, userData) => apiClient.put(`/users/${id}`, userData).then(response => response.data.data),
-  delete: (id) => apiClient.delete(`/users/${id}`),
+  getAll: () => apiClient.get('/api/users').then(response => response.data.data || []),
+  getById: (id) => apiClient.get(`/api/users/${id}`).then(response => response.data.data),
+  create: (userData) => {
+    console.log('Creating user with data:', userData);
+    
+    // Ensure all required fields are present
+    if (!userData.name || !userData.email || !userData.password || !userData.role) {
+      console.error('Missing required fields for user creation');
+      return Promise.reject(new Error('Missing required fields'));
+    }
+    
+    // We don't need to generate a username here anymore as the backend will handle it
+    return apiClient.post('/api/users', userData)
+      .then(response => {
+        console.log('User created successfully:', response.data);
+        return response.data.data;
+      })
+      .catch(error => {
+        console.error('Failed to create user:', error.response?.data || error.message);
+        throw error;
+      });
+  },
+  update: (id, userData) => apiClient.put(`/api/users/${id}`, userData).then(response => response.data.data),
+  delete: (id) => apiClient.delete(`/api/users/${id}`),
 };
 

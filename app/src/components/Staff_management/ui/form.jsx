@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cn } from '../../utils/cn';
+import { cn } from '../../../utils/cn';
 
 const Form = React.forwardRef(({ className, ...props }, ref) => {
   return (<form ref={ref} className={cn('space-y-4', className)} {...props} />);

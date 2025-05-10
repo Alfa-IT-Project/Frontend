@@ -90,8 +90,8 @@ function Sview() {
                   <td>{supplier.remarks}</td>
                   <td>
                     <div className={styles.buttonContainer}>
-                    <button className={styles.tableButton} onClick={() => handleEdit(supplier)}>Edit</button>
-                    <button className={styles.tableButton} onClick={() => handleDelete(supplier.id)}>Delete</button>
+                    <button className={styles.tableButtonSup} onClick={() => handleEdit(supplier)}>Edit</button>
+                    <button className={styles.tableButtonSup} onClick={() => handleDelete(supplier.id)}>Delete</button>
                     </div>
                   </td>
                 </tr>

@@ -7,25 +7,34 @@ const API_URL = 'http://localhost:4000';
 
 function CustomerList() {
   const [customers, setCustomers] = useState([]);
+  const [selectedTier, setSelectedTier] = useState('all');
 
   useEffect(() => {
-    const fetchCustomers = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(`${API_URL}/customers/getCustomers`, {
-          headers: {
-            Authorization: `Bearer ${token}`, // Include token in request
-          },
-        });
-        console.log('Customers:', response.data);
-        setCustomers(response.data);
-      } catch (error) {
-        console.error('Error fetching customers:', error);
-      }
-    };
-
     fetchCustomers();
-  }, []);
+  }, [selectedTier]);
+
+  const fetchCustomers = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const endpoint = selectedTier === 'all' 
+        ? `${API_URL}/customers/getCustomers`
+        : `${API_URL}/customers/getCustomersByTier/${selectedTier}`;
+      
+      const response = await axios.get(endpoint, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('Customers:', response.data);
+      setCustomers(response.data);
+    } catch (error) {
+      console.error('Error fetching customers:', error);
+    }
+  };
+
+  const handleTierChange = (event) => {
+    setSelectedTier(event.target.value);
+  };
 
   const handleDelete = async (customerId) => {
     try {
@@ -50,6 +59,20 @@ function CustomerList() {
       <div className={styles.content}>
         <div className={styles.customerSection}>
           <h2>Customers</h2>
+          <div className={styles.filterSection}>
+            <label htmlFor="tierFilter">Filter by Tier: </label>
+            <select 
+              id="tierFilter" 
+              value={selectedTier} 
+              onChange={handleTierChange}
+              className={styles.tierSelect}
+            >
+              <option value="all">All Customers</option>
+              <option value="platinum">Platinum</option>
+              <option value="gold">Gold</option>
+              <option value="silver">Silver</option>
+            </select>
+          </div>
           <table className={styles.customerTable}>
             <thead>
               <tr>
@@ -59,7 +82,7 @@ function CustomerList() {
                 <th>Phone</th>
                 <th>Address</th>
                 <th>Notes</th>
-                <th>Actions</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -71,11 +94,7 @@ function CustomerList() {
                   <td>{customer.user.phoneNumber || 'N/A'}</td>
                   <td>{customer.user.address || 'N/A'}</td>
                   <td>{customer.notes || 'N/A'}</td>
-                  <td>
-                    <button onClick={() => handleDelete(customer.id)}>
-                      Delete Customer
-                    </button>
-                  </td>
+                 
                 </tr>
               ))}
             </tbody>
