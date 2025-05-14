@@ -1,0 +1,181 @@
+/* General Container Styling */
+.contain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: #f0f0f0;
+    min-height: 100vh;
+}
+
+/* Header Styling */
+.header {
+    width: 100%;
+    height: 110px;
+    background-color: #1c1c1c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+}
+
+/* Logo Styling */
+.logo {
+    height: 80%;
+    object-fit: contain;
+}
+
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    gap: 10px;
+}
+
+/* Navbar Button Styling */
+.navButton {
+    background-color: rgba(2, 172, 2, 0);
+    color: rgb(255, 170, 0);
+    padding: 10px 20px;
+    border: 1px solid black;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: large;
+    font-family: 'Lucida Sans', sans-serif;
+    font-weight: bold;
+}
+
+.navButton:hover {
+    background-color: rgba(255, 170, 1);
+    color: rgb(18, 19, 18);
+}
+
+/* Content Section Styling */
+.content {
+    max-width: 1200px;
+    width: 100%;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    margin-top: 140px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/*add supplier button styling*/
+
+
+.btn_supplier:hover{
+    background-color: rgba(255, 170, 1);
+    color: black;
+    padding: 10px 35px;
+    border-radius: 5px;
+}
+
+/* Supplier Section Styling */
+.supplierSection {
+    margin-top: 20px;
+}
+
+/* Table Styling */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Header Styling */
+.table th {
+    background-color: rgb(212, 211, 211);
+    color: black;
+    padding: 12px;
+    text-align: left;
+    font-size: 16px;
+}
+
+/* Table Row Styling */
+.table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+    vertical-align: middle;
+    
+}
+
+/* Table Row Hover Effect */
+.table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.buttonContainer{
+    display: flex;
+    gap:2px;
+    justify-content: center;
+
+}
+
+/* Action Buttons (Edit & Delete) */
+.tableButtonSup {
+    padding: 6px 12px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 14px;
+}
+
+/* Edit Button */
+.tableButtonSup:first-child {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.tableButtonSup:first-child:hover {
+    background-color: #45a049;
+}
+
+/* Delete Button */
+.tableButtonSup:last-child {
+    background-color: #f44336;
+    color: white;
+}
+
+.tableButtonSup:last-child:hover {
+    background-color: #d32f2f;
+}
+
+.btn_supplierContainer{
+    margin: auto;
+    margin-top: 10px;
+    max-width: 200px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    
+
+}
+.btn_supplier{
+    background-color: black;
+    color: white;
+    padding: 10px 35px;
+    border-radius: 5px;
+    border: none;
+}
+
+.btn_supplier:hover{
+    background-color: rgba(255, 170, 1);
+    color: black;
+    padding: 10px 35px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
