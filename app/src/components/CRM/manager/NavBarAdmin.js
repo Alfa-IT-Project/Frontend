@@ -40,7 +40,7 @@ const Navbar = () => {
           className={`${styles.navButton} ${isActive('/rewardList') ? styles.active : ''}`}
           onClick={() => navigate('/rewardList')}
         >
-          Generate Rewards
+          Rewards
         </button>
         <button className={styles.navButton} onClick={handleLogout}>Logout</button>
       </nav>
