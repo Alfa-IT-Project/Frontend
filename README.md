@@ -1,4 +1,4 @@
-# Frontend Project
+# ⚡ Alfa Hardware Store Management System – Frontend
 
 <div align="center">
 
@@ -7,7 +7,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0.0-3178C6)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-A modern, feature-rich React application built with the latest web technologies and best practices.
+<p align="center"><b>Modern, Responsive, All-in-One Dashboard for Hardware Store Operations</b></p>
 
 </div>
 
@@ -15,380 +15,281 @@ A modern, feature-rich React application built with the latest web technologies 
 
 ## 🏪 About This Project
 
-**Hardware Store Management System** is a comprehensive web application designed to streamline and automate the daily operations of a hardware store.  
-It provides modules for inventory management, customer relationship management (CRM), supplier order management, delivery tracking, and staff management.  
-The system helps store owners and staff efficiently manage stock, orders, deliveries, and customer interactions, all from a single, user-friendly dashboard.
+**Alfa Hardware Store Management System** is a next-generation web application designed to digitally transform hardware retail operations.  
+It empowers store owners and staff with seamless inventory, CRM, supplier order, delivery, and staff management—all from a single, beautiful dashboard.
 
-Key benefits:
-- Centralized management of inventory, suppliers, customers, and staff
-- Real-time updates and analytics for better decision-making
-- Role-based access control for secure operations
-- Responsive design for use on any device
+**Key benefits:**
+- 🗃️ Centralized workflow for inventory, suppliers, customers, and staff
+- 📊 Real-time analytics, updates, and management insights
+- 🔒 Secure & role-based access for every user type
+- 📱 Responsive design—works perfectly on any device
 
 ---
 
 ## 📋 Table of Contents
 
-- [Features](#-features)
-- [Business Features](#-business-features)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
-- [Development](#-development)
-- [Testing](#-testing)
-- [Building](#-building)
-- [Configuration](#-configuration)
-- [Dependencies](#-dependencies)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Authors](#-authors)
-- [Acknowledgments](#-acknowledgments)
+- [✨ Features](#-features)
+- [💼 Business Features](#-business-features)
+- [🔒 Access Control & Permissions](#-access-control--permissions)
+- [🛠️ Tech Stack](#-tech-stack)
+- [📁 Project Structure](#-project-structure)
+- [🚀 Getting Started](#-getting-started)
+- [💻 Development](#-development)
+- [🧪 Testing](#-testing)
+- [🏗️ Building](#-building)
+- [🔧 Configuration](#-configuration)
+- [📦 Dependencies](#-dependencies)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+- [👥 Authors](#-authors)
+- [🙏 Acknowledgments](#-acknowledgments)
+
+---
 
 ## ✨ Features
 
 ### Core Features
-- 🚀 Modern React 19 with latest features and optimizations
-- 📱 Fully responsive design using Tailwind CSS
-- 🎨 Rich UI components with Material-UI and Ant Design
-- 📅 Advanced calendar functionality with FullCalendar
-- 📊 Interactive charts and data visualization
-- 📝 Form handling with React Hook Form
-- 🔄 Real-time data fetching with React Query
-- 📄 PDF generation and export capabilities
-- 📈 Excel file import/export functionality
-- 🔔 Toast notifications system
-- 🎯 TypeScript support for better development experience
+- ⚛️ Modern React 19 with advanced optimizations
+- 📱 Fully responsive UI powered by Tailwind CSS
+- 🎨 Rich component libraries: Material-UI & Ant Design
+- 📅 Advanced scheduling with FullCalendar
+- 📊 Interactive charts & analytics
+- 📝 Smooth forms with React Hook Form
+- 🔄 Real-time data fetching via React Query
+- 📄 Export to PDF & Excel
+- 🔔 Toast notification system
+- 💙 TypeScript-first for robust development
 
 ### UI/UX Features
-- 🎨 Modern and clean user interface
-- 🌙 Dark/Light mode support
-- 📱 Mobile-first responsive design
-- ⚡ Fast loading and smooth transitions
-- 🔍 SEO optimized
-- ♿ Accessibility support
+- 💎 Clean, modern interface with dark/light mode
+- ⚡ Fast loading & animated transitions
+- 🔍 SEO & accessibility optimized
+
+---
 
 ## 💼 Business Features
 
-### User Management System
-- 👤 User registration and authentication
-- 🔐 Role-based access control (RBAC)
-- 👥 User profile management
-- 🔑 Password reset and recovery
-- 📱 Multi-factor authentication
-- 📊 User activity tracking
-- 🔒 Session management
-- 👮‍♂️ Permission management
+### User Management
+- 👤 User registration, authentication, and multi-factor auth
+- 🛡️ Role-based access (RBAC) & granular permissions
+- 🔑 Password reset, session, and activity management
 
-### Customer Relationship Management (CRM)
-- 👥 Customer profile management
-- 📞 Contact management
-- 📝 Lead tracking and management
-- 📊 Customer interaction history
-- 📈 Sales pipeline visualization
-- 📧 Email integration
-- 📱 Communication history
-- 🎯 Customer segmentation
-- 📊 Analytics and reporting
+### CRM
+- 👥 Customer profiles, lead tracking, and segmentation
+- 📈 Sales pipeline, analytics, and reporting
+- 📧 Email integration & communication history
 
-### Inventory Management
-- 📦 Stock tracking and management
-- 🔄 Real-time inventory updates
-- 📊 Stock level monitoring
-- 📈 Inventory analytics
-- 🏷️ Product categorization
-- 📝 Batch tracking
-- 🔍 Product search and filtering
-- 📊 Low stock alerts
-- 📈 Inventory forecasting
+### Inventory
+- 📦 Stock tracking, low-stock alerts, and forecasting
+- 🏷️ Product categorization, batch tracking, and analytics
 
-### Supplier Order Management
-- 📋 Purchase order creation
-- 📊 Order tracking
-- 📈 Supplier performance metrics
-- 📝 Order history
-- 🔄 Order status updates
-- 📧 Supplier communication
-- 📊 Cost analysis
-- 📈 Order analytics
-- 📱 Mobile order management
+### Supplier Orders
+- 📋 Purchase order management
+- 📊 Supplier metrics, cost analysis, and order status
 
-### Delivery Management
-- 🚚 Delivery tracking
-- 📍 Route optimization
-- 📊 Delivery analytics
-- 📱 Real-time status updates
-- 📈 Performance metrics
-- 📝 Delivery scheduling
-- 🔍 Delivery search
-- 📊 Delivery reports
-- 🎯 Customer delivery preferences
+### Delivery
+- 🚚 Real-time delivery tracking and route optimization
+- 📊 Delivery analytics, scheduling, and customer preferences
 
-### Staff Management
-- 👥 Employee profiles
-- 📊 Attendance tracking
-- 📈 Performance monitoring
-- 📝 Leave management
-- 📊 Payroll integration
-- 📱 Mobile attendance
-- 📈 Staff analytics
-- 🎯 Training management
-- 📊 Work schedule management
+### Staff
+- 👥 Employee profiles, attendance, payroll & scheduling
+- 🎯 Performance and training management
+
+---
 
 ## 🔒 Access Control & Permissions
 
-### Role-Based Access Control (RBAC)
+- **Route Protection**
+  - 🔒 Authentication Guard: Ensures only logged-in users access protected routes
+  - 🛡️ Role Guard: Restricts access by user role
+  - 📋 Permission Guard: Manages feature-level permissions
 
-### Route Protection
-- 🔒 **Authentication Guard**
-  - Verifies user login status
-  - Redirects to login if unauthenticated
-  - Maintains session state
+- **Implementation**
+  - 🔐 JWT-based authentication
+  - 🎯 Permission-based rendering & dynamic menus
+  - 🔍 Audit logging for access attempts
 
-- 🛡️ **Role Guard**
-  - Validates user role
-  - Prevents unauthorized access
-  - Redirects to dashboard if unauthorized
-
-- 📋 **Permission Guard**
-  - Checks specific permissions
-  - Controls feature access
-  - Manages granular permissions
-
-### Implementation Details
-- 🔐 JWT-based authentication
-- 🔑 Role-based route guards
-- 🎯 Permission-based component rendering
-- 🔄 Dynamic menu generation
-- 📱 Responsive access control
-- 🔍 Audit logging of access attempts
+---
 
 ## 🛠️ Tech Stack
 
-### Frontend Framework
-- **React 19** - Latest version with concurrent features
-- **TypeScript** - For type safety and better development experience
+- **Frontend:** React 19 + TypeScript
+- **Styling:** Tailwind CSS, Styled Components, Material-UI, Ant Design
+- **Data:** React Query, Axios, Chart.js, FullCalendar
+- **Forms & Notifications:** React Hook Form, React Hot Toast, React Toastify
+- **Utilities:** date-fns, xlsx, jsPDF, @react-pdf/renderer
 
-### Styling Solutions
-- **Tailwind CSS** - Utility-first CSS framework
-- **Styled Components** - CSS-in-JS solution
-- **Material-UI** - React UI framework
-- **Ant Design** - Enterprise UI design system
-
-### State Management & Data Fetching
-- **React Query** - For server state management
-- **Axios** - HTTP client for API requests
-
-### UI Components & Libraries
-- **FullCalendar** - Calendar and scheduling
-- **Chart.js** - Data visualization
-- **React Hook Form** - Form handling
-- **React Router DOM** - Routing solution
-- **React Hot Toast** - Toast notifications
-- **React Toastify** - Additional notification system
-
-### Utility Libraries
-- **date-fns** - Date manipulation
-- **xlsx** - Excel file handling
-- **jsPDF** - PDF generation
-- **@react-pdf/renderer** - React PDF generation
+---
 
 ## 📁 Project Structure
 
 ```
 src/
-├── components/          # Reusable UI components
-│   ├── common/         # Shared components
-│   ├── layout/         # Layout components
-│   └── forms/          # Form components
-├── pages/              # Page components
-│   ├── auth/          # Authentication pages
-│   ├── dashboard/     # Dashboard pages
-│   └── settings/      # Settings pages
-├── services/           # API services
-│   ├── api/           # API endpoints
-│   └── auth/          # Authentication services
-├── utils/              # Utility functions
-│   ├── helpers/       # Helper functions
-│   └── constants/     # Constants and configs
-├── hooks/              # Custom React hooks
-├── types/              # TypeScript type definitions
-├── styles/             # Global styles
-└── App.js              # Main application component
+├── components/       # UI elements
+│   ├── common/       # Shared components
+│   ├── layout/       # Layouts
+│   └── forms/        # Form components
+├── pages/            # Page-level components
+│   ├── auth/         
+│   ├── dashboard/    
+│   └── settings/     
+├── services/         # API & auth services
+├── utils/            # Helpers & constants
+├── hooks/            # Custom React hooks
+├── types/            # TypeScript types
+├── styles/           # Global styles
+└── App.js            # Main app entry
 ```
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js (v18.0.0 or higher)
-- npm (v9.0.0 or higher) or yarn (v1.22.0 or higher)
+- Node.js (v18+)
+- npm (v9+) or yarn (v1.22+)
 - Git
 
 ### Installation
 
-1. Clone the repository:
-```bash
-git clone https://github.com/Alfa-IT-Project/Frontend.git
-```
+1. **Clone the repo:**
+    ```bash
+    git clone https://github.com/Alfa-IT-Project/Frontend.git
+    ```
+2. **Go to project directory:**
+    ```bash
+    cd app
+    ```
+3. **Install dependencies:**
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
+4. **Set up environment variables:**
+    ```bash
+    cp .env.example .env
+    ```
+5. **Start the app:**
+    ```bash
+    npm start
+    # or
+    yarn start
+    ```
+   App is now running at [http://localhost:3000](http://localhost:3000)
 
-2. Navigate to the project directory:
-```bash
-cd app
-```
-
-3. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-```
-
-4. Create a `.env` file in the root directory:
-```bash
-cp .env.example .env
-```
-
-5. Start the development server:
-```bash
-npm start
-# or
-yarn start
-```
-
-The application will be available at `http://localhost:3000`
+---
 
 ## 💻 Development
 
-### Available Scripts
+**Scripts:**
+- `npm start` – Dev mode
+- `npm test` – Run tests
+- `npm run build` – Production build
+- `npm run eject` – Eject config (irreversible)
+- `npm run lint` – Lint code
+- `npm run format` – Format with Prettier
 
-- `npm start` - Runs the app in development mode
-- `npm test` - Launches the test runner
-- `npm run build` - Builds the app for production
-- `npm run eject` - Ejects from Create React App
-- `npm run lint` - Runs ESLint
-- `npm run format` - Formats code with Prettier
+**Code Style:**
+- ESLint, Prettier, TypeScript
 
-### Code Style
+**Git Workflow:**
+1. Create a feature branch
+2. Commit with clear messages
+3. Write/update tests and docs
+4. Open a pull request
 
-This project uses:
-- ESLint for code linting
-- Prettier for code formatting
-- TypeScript for type checking
-
-### Git Workflow
-
-1. Create a new branch for your feature
-2. Make your changes
-3. Write/update tests
-4. Update documentation
-5. Submit a pull request
+---
 
 ## 🧪 Testing
 
-The project uses Jest and React Testing Library for testing. Run tests using:
+- **Jest** & **React Testing Library**
+- Run all tests:
+    ```bash
+    npm test
+    ```
+- Watch mode:
+    ```bash
+    npm test -- --watch
+    ```
+- Coverage:
+    ```bash
+    npm test -- --coverage
+    ```
 
-```bash
-# Run all tests
-npm test
-
-# Run tests in watch mode
-npm test -- --watch
-
-# Run tests with coverage
-npm test -- --coverage
-```
+---
 
 ## 🏗️ Building
 
-### Production Build
-
-To create a production build:
-
+**Production Build:**
 ```bash
 npm run build
 ```
+Artifacts in `build/`
 
-The build artifacts will be stored in the `build/` directory.
+**Env Vars:**
+- `REACT_APP_API_URL` – API endpoint
+- `REACT_APP_ENV` – development/production
 
-### Environment Variables
-
-Required environment variables:
-- `REACT_APP_API_URL` - API endpoint URL
-- `REACT_APP_ENV` - Environment (development/production)
+---
 
 ## 🔧 Configuration
 
-### Tailwind CSS
-- `tailwind.config.js` - Tailwind CSS configuration
-- `postcss.config.js` - PostCSS configuration
+- **Tailwind:** `tailwind.config.js`, `postcss.config.js`
+- **TypeScript:** `tsconfig.json`
+- **ESLint:** `.eslintrc.js`
 
-### TypeScript
-- `tsconfig.json` - TypeScript configuration
-
-### ESLint
-- `.eslintrc.js` - ESLint configuration
+---
 
 ## 📦 Dependencies
 
-### Core Dependencies
+### Core
 - React 19
 - TypeScript
 - Tailwind CSS
 - Material-UI
 - Ant Design
 
-### Development Dependencies
+### Development
 - ESLint
 - Prettier
 - Jest
 - React Testing Library
 
+---
+
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Fork the repo
+2. Create your branch (`git checkout -b feature/AmazingFeature`)
+3. Commit (`git commit -m 'Add some AmazingFeature'`)
+4. Push (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request 🚀
 
-### Pull Request Process
+**Pull Request Process:**
+- Update docs/README if needed
+- Await at least one developer sign-off
 
-1. Update the README.md with details of changes if needed
-2. Update the documentation
-3. The PR will be merged once you have the sign-off of at least one other developer
+---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License – see [LICENSE](LICENSE).
+
+---
 
 ## 👥 Authors
 
-### Project Contributors
+| Name | Role | GitHub |
+|------|------|--------|
+| **KUMARI M. A. D. N.** | Login & CRM, Project Lead | [nadee2k](https://github.com/nadee2k) |
+| **KAPUWELLA K. G. N. D.** | Inventory | [NipunDemintha](https://github.com/NipunDemintha) |
+| **VITHANA Y. S. D.** | Staff | [diw-666](https://github.com/diw-666) |
+| **AYYASH M. R. Y.** | Delivery | [yahiyaiyash](https://github.com/yahiyaiyash) |
+| **BISHRU R. M.** | Supplier Orders | [Bishru182](https://github.com/Bishru182) |
 
-- **KUMARI M. A. D. N.** 
-  - *Role:* Login Part and Customer Relationship Management
-  - *GitHub:* [nadee2k](https://github.com/nadee2k)
-
-- **KAPUWELLA K. G. N. D.**
-  - *Role:* Inventory Management
-  - *GitHub:* [NipunDemintha](https://github.com/NipunDemintha)
-
-- **VITHANA Y. S. D.**
-  - *Role:* Staff Management
-  - *GitHub:* [diw-666](https://github.com/diw-666)
-
-- **AYYASH M. R. Y.**
-  - *Role:* Delivery Management
-  - *GitHub:* [yahiyaiyash](https://github.com/yahiyaiyash)
-
-- **BISHRU R. M.**
-  - *Role:* Supplier Order Management
-  - *GitHub:* [Bishru182](https://github.com/Bishru182)
-
-### Project Lead
-- **KUMARI M. A. D. N.**
-  - *Role:* Project Lead
-  - *GitHub:* [nadee2k](https://github.com/nadee2k)
+---
 
 ## 🙏 Acknowledgments
 
@@ -397,4 +298,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Material-UI](https://mui.com/)
 - [Ant Design](https://ant.design/)
-- All other open-source libraries used in this project
+- All open-source tools & libraries that power this project
+
+---
+
+<p align="center"><b>🚀 Run your hardware store smarter, faster, and more beautifully!</b></p>
